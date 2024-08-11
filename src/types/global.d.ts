@@ -1,6 +1,6 @@
 /**
  *
- * Define all global types in this file.
+ * All global types
  *
  */
 
@@ -10,10 +10,17 @@ type User = {
 	username: string;
 };
 
-type Todo = {
-	_id: string;
-	todoTitle: string;
-	todoDescription: string;
-	isComplete: boolean;
-	creator: User;
+type Article = {
+	id: string;
+	title: string;
+	content: string;
+	author: User;
 };
+
+// type Todo = {
+// 	_id: string;
+// 	todoTitle: string;
+// 	todoDescription: string;
+// 	isComplete: boolean;
+// 	creator: User;
+// };

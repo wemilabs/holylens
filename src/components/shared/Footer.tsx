@@ -1,14 +1,9 @@
 import Link from 'next/link';
 import Logo from './Logo';
 
-/**
- * Renders the footer component with various sections including links and text.
- *
- * @return {JSX.Element} The rendered footer component
- */
 export const Footer = (): JSX.Element => {
 	return (
-		<footer className='bg-[#111b21] text-white'>
+		<footer className='w-full h-fit bg-tertiary text-white static left-0 bottom-0'>
 			<div className='p-6 lg:px-32 lg:pt-24 lg:pb-16'>
 				<div className='grid grid-cols-5 space-x-8'>
 					<div>
@@ -96,7 +91,7 @@ export const Footer = (): JSX.Element => {
 
 			<div className='p-6 lg:px-32 lg:py-10'>
 				<div className='text-xs text-center'>
-					@ 2024 HolyLens Foundation |{' '}
+					© 2024 HolyLens Foundation |{' '}
 					<span>
 						<Link href={'/privacy'} className='hover:underline'>
 							Privacy Policy

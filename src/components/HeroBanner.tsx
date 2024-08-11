@@ -17,7 +17,7 @@ const HeroBanner = () => {
 		<div className='lg:grid lg:grid-cols-2 py-[80px] px-6'>
 			<div className='flex flex-col gap-y-4 items-start md:pl-6 md:pt-14 border border-transparent revealed-from-the-top'>
 				<h1 className='text-6xl lg:text-7xl font-medium text-center lg:text-left mx-auto lg:mx-0'>
-					Be inspired.
+					Be enlightened.
 				</h1>
 				<h2 className='pt-4 pb-8 text-xl font-normal text-center lg:text-left'>
 					Immerse thyself into deep teachings, stories, thinking and experiences
@@ -26,7 +26,7 @@ const HeroBanner = () => {
 				<Link
 					href='/articles'
 					type='button'
-					className='mx-auto lg:mx-0 py-2 px-12 bg-[#087ea4] transition-colors duration-300 hover:bg-[#099dce] rounded-full text-white'
+					className='mx-auto lg:mx-0 py-2 px-12 bg-secondary transition-colors duration-300 hover:bg-secondaryHover rounded-full text-white'
 				>
 					Let’s dive into
 				</Link>

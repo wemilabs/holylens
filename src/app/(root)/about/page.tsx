@@ -1,6 +1,6 @@
-export default function page() {
+export default function AboutPage() {
 	return (
-		<div className='py-1 px-6 md:px-14 space-y-12'>
+		<div className='py-1 pb-14 px-6 md:px-14 space-y-12'>
 			<div className='text-wrap max-w-2xl pt-14'>
 				<h1 className='text-4xl lg:text-6xl font-semibold lg:font-medium'>
 					Surely, everyone has a story to tell.

@@ -16,7 +16,7 @@ export default async function Home() {
 					<>
 						<Link
 							href={'/articles'}
-							className='text-base bg-[#087ea4]  transition-colors duration-300 hover:bg-[#099dce] px-12 py-2 lg:py-3 rounded-full'
+							className='text-base bg-secondary transition-colors duration-300 hover:bg-secondaryHover px-12 py-2 lg:py-3 rounded-full'
 						>
 							Our Articles
 						</Link>
