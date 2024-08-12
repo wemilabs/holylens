@@ -15,8 +15,8 @@ export const Footer = (): JSX.Element => {
 						<span className='text-xs'>What we do</span>
 						<ul className=''>
 							<li className='pt-6'>
-								<Link href={'/articles'} className='hover:underline'>
-									Articles
+								<Link href={'/lenses'} className='hover:underline'>
+									Lenses
 								</Link>
 							</li>
 							<li className='pt-3'>#Blog</li>

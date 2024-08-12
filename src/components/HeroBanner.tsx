@@ -24,7 +24,7 @@ const HeroBanner = () => {
 					from writers on faith and life.
 				</h2>
 				<Link
-					href='/articles'
+					href='/lenses'
 					type='button'
 					className='mx-auto lg:mx-0 py-2 px-12 bg-secondary transition-colors duration-300 hover:bg-secondaryHover rounded-full text-white'
 				>

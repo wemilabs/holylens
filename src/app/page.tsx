@@ -15,10 +15,10 @@ export default async function Home() {
 					</div>
 					<>
 						<Link
-							href={'/articles'}
+							href={'/lenses'}
 							className='text-base bg-secondary transition-colors duration-300 hover:bg-secondaryHover px-12 py-2 lg:py-3 rounded-full'
 						>
-							Our Articles
+							Our Lenses
 						</Link>
 					</>
 				</section>

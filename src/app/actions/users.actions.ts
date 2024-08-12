@@ -7,7 +7,7 @@ export async function getUsers() {
 	await dbConnect();
 
 	try {
-		const users = await Users.find({}).lean().exec();
+		const users = await Users.find({}).sort({ createdAt: -1 }).lean().exec();
 		if (users.length === 0) {
 			return { success: false, message: 'No users found' };
 		}
