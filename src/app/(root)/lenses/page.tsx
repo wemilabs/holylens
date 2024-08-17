@@ -1,4 +1,5 @@
 import { getLenses } from '@/app/actions/lenses.actions';
+import LensesList from '@/components/LensesList';
 
 export default async function LensesPage() {
 	const result = await getLenses();
@@ -8,24 +9,19 @@ export default async function LensesPage() {
 	}
 
 	const { data } = result;
+	if (!data) {
+		return <div>Error: Data is undefined</div>;
+	}
 
-	return (
-		<div>
-			<h1>Lenses List</h1>
-			<ul>
-				{
-					/*To resolve the error "'data' is possibly 'undefined'", can add a nullish coalescing operator (??) to provide a default value for if it is undefined */ (
-						data ?? []
-					).map(lens => (
-						<li key={String(lens._id)} className='p-10'>
-							<h1>
-								{lens.title} - {lens.author.name}
-							</h1>
-							<p>{lens.content}</p>
-						</li>
-					))
-				}
-			</ul>
-		</div>
-	);
+	// Convert complex objects to plain objects
+	const plainData = data.map(lens => ({
+		...lens,
+		_id: lens._id?.toString(), // Convert ObjectId to string
+		author: {
+			...lens.author,
+			_id: lens.author._id.toString(), // Convert ObjectId to string
+		},
+	}));
+
+	return <LensesList data={plainData} />;
 }

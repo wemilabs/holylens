@@ -2,10 +2,15 @@ import { Footer } from '@/components/shared/Footer';
 import Header from '@/components/shared/Header';
 import { ThemeContextProvider } from '@/context/ThemeContext';
 import type { Metadata } from 'next';
-import { Montserrat } from 'next/font/google';
+import { Merriweather /*, Baskervville*/ } from 'next/font/google';
+
 import './globals.css';
 
-const montSerrat = Montserrat({ subsets: ['latin'], display: 'swap' });
+const merriweather = Merriweather({
+	weight: ['300', '400', '700', '900'],
+	style: 'normal',
+	subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
 	title:
@@ -21,7 +26,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html id='holyLens' lang='en' dir='ltr' data-theme='light'>
-			<body className={`bg-primary ${montSerrat.className}`}>
+			<body className={`bg-primary ${merriweather.className}`}>
 				<ThemeContextProvider>
 					<Header />
 					{children}
