@@ -1,110 +1,34 @@
+'use client';
+
+import { motion as m } from 'framer-motion';
 import Link from 'next/link';
-import Logo from './Logo';
 
-export const Footer = (): JSX.Element => {
+const Footer = () => {
 	return (
-		<footer className='w-full h-fit bg-tertiary text-white static left-0 bottom-0'>
-			<div className='p-6 lg:px-32 lg:pt-24 lg:pb-16'>
-				<div className='grid grid-cols-5 space-x-8'>
-					<div>
-						<Link href={'/'}>
-							<Logo />
-						</Link>
-					</div>
-					<div>
-						<span className='text-xs'>What we do</span>
-						<ul className=''>
-							<li className='pt-6'>
-								<Link href={'/lenses'} className='hover:underline'>
-									Lenses
-								</Link>
-							</li>
-							<li className='pt-3'>#Blog</li>
-							<li className='pt-3'>
-								<Link href={'/podcasts'} className='hover:underline'>
-									Podcasts
-								</Link>
-							</li>
-						</ul>
-					</div>
-					<div>
-						<span className='text-xs'>About HolyLens</span>
-						<ul className=''>
-							<li className='pt-6'>
-								<Link href={'/about'} className='hover:underline'>
-									Mission
-								</Link>
-							</li>
-							<li className='pt-3'>
-								<Link href={'/stories'} className='hover:underline'>
-									Stories
-								</Link>
-							</li>
-							<li className='pt-3'>
-								<Link href={'/careers'} className='hover:underline'>
-									Careers
-								</Link>
-							</li>
-							<li className='pt-3'>
-								<Link href={'/give'} className='hover:underline'>
-									Give
-								</Link>
-							</li>
-						</ul>
-					</div>
-					<div>
-						<span className='text-xs'>Partners</span>
-						<ul className=''>
-							<li className='pt-6'>#Content Partners</li>
-							<li className='pt-3'>#Churches</li>
-							<li className='pt-3'>
-								<Link href={'/volunteers'} className='hover:underline'>
-									Volunteers
-								</Link>
-							</li>
-						</ul>
-					</div>
-					<div>
-						<span className='text-xs'>Need help?</span>
-						<ul className=''>
-							<li className='pt-6'>
-								<Link href={'/contact'} className='hover:underline'>
-									Contact Us
-								</Link>
-							</li>
-							<li className='pt-3'>
-								<Link href={'/faq'} className='hover:underline'>
-									FAQ
-								</Link>
-							</li>
-							<li className='pt-3'>
-								<Link href={'/support'} className='hover:underline'>
-									Support
-								</Link>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
-			<div className='w-full md:w-3/4 h-[1px] m-auto bg-gray-700'></div>
-
-			<div className='p-6 lg:px-32 lg:py-10'>
-				<div className='text-xs text-center'>
-					© 2024 HolyLens Foundation |{' '}
-					<span>
-						<Link href={'/privacy'} className='hover:underline'>
-							Privacy Policy
-						</Link>
-					</span>{' '}
-					|{' '}
-					<span>
-						<Link href={'/terms'} className='hover:underline'>
-							Terms of Use
-						</Link>
-					</span>
+		<footer className='bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-8 transition-colors duration-300'>
+			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center'>
+				<p className='text-gray-600 dark:text-gray-300 transition-colors duration-300'>
+					© 2024 HolyLens. All rights reserved.
+				</p>
+				<div className='flex space-x-6'>
+					{['Privacy Policy', 'Terms of Service'].map(item => (
+						<m.div
+							key={item}
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}
+						>
+							<Link
+								href='#'
+								className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-300'
+							>
+								{item}
+							</Link>
+						</m.div>
+					))}
 				</div>
 			</div>
 		</footer>
 	);
 };
+
+export default Footer;

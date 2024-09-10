@@ -16,7 +16,7 @@ declare global {
 }
 
 // Handling the connection logic and returning the established connection.
-async function dbConnect() {
+async function connectToDatabase() {
 	if (!cached) {
 		cached = global.mongoose = { conn: null, promise: null };
 	}
@@ -37,4 +37,4 @@ async function dbConnect() {
 	return cached.conn;
 }
 
-export default dbConnect;
+export default connectToDatabase;

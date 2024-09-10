@@ -1,41 +1,33 @@
-import Link from 'next/link';
-import Carousel from './Carousel';
+'use client';
 
-/**
- * Function representing the HeroBanner component.
- */
+import { motion as m } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+
 const HeroBanner = () => {
-	const heroBannerImages = [
-		'/1.webp',
-		'/2.webp',
-		'/3.webp',
-		'/4.webp',
-		'/5.webp',
-	];
-
 	return (
-		<div className='lg:grid lg:grid-cols-2 py-[80px] px-6'>
-			<div className='flex flex-col gap-y-4 items-start md:pl-6 md:pt-14 border border-transparent revealed-from-the-top'>
-				<h1 className='text-6xl lg:text-7xl font-medium text-center lg:text-left mx-auto lg:mx-0'>
-					Be enlightened.
-				</h1>
-				<h2 className='pt-4 pb-8 text-xl font-normal text-center lg:text-left'>
-					Immerse thyself into deep teachings, stories, thinking and experiences
-					from writers on faith and life.
-				</h2>
-				<Link
-					href='/lenses'
-					type='button'
-					className='mx-auto lg:mx-0 py-2 px-12 bg-secondary transition-colors duration-300 hover:bg-secondaryHover rounded-full text-white'
-				>
-					Let’s dive into
-				</Link>
-			</div>
-
-			<div className='hidden lg:inline-block relative border border-transparent revealed-from-the-right'>
-				<Carousel slidesImages={heroBannerImages} />
-			</div>
-		</div>
+		<m.section
+			initial={{ opacity: 0, y: 20 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.5 }}
+			className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center'
+		>
+			<h1 className='text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-6 transition-colors duration-300'>
+				Illuminating Perspectives
+			</h1>
+			<p className='text-xl text-gray-600 dark:text-gray-300 mb-8 transition-colors duration-300'>
+				Explore thought-provoking articles on spirituality, philosophy, and
+				personal growth.
+			</p>
+			<m.div
+				transition={{ duration: 0.3 }}
+				whileHover={{ scale: 1.05 }}
+				whileTap={{ scale: 0.95 }}
+			>
+				<Button className='bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-300'>
+					Start Reading
+				</Button>
+			</m.div>
+		</m.section>
 	);
 };
 

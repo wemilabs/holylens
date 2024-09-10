@@ -1,28 +1,39 @@
 'use client';
 
-import { ThemeContext } from '@/context/ThemeContext';
-import Image from 'next/image';
-import React, { useContext } from 'react';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
-const ThemeToggle: React.FC = () => {
-	const { toggle, theme } = useContext(ThemeContext);
+import { Button } from '@/components/ui/button';
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+export function ThemeToggle() {
+	const { setTheme } = useTheme();
 
 	return (
-		<div
-			className={`w-10 h-5 rounded-[50px] cursor-pointer flex items-center justify-between bg-black relative ${
-				theme === 'dark' ? 'bg-white' : 'bg-[#0f172a]'
-			}`}
-			onClick={toggle}
-		>
-			<Image src='/moon.webp' alt='' width={14} height={14} />
-			<div
-				className={`w-4 h-4 rounded-[50%] transition-all duration-300 ease-in-out bg-white absolute left-[1px] ${
-					theme === 'dark' ? 'left-1 bg-[#0f172a]' : 'right-1 bg-white'
-				}`}
-			></div>
-			<Image src='/sun.webp' alt='' width={14} height={14} />
-		</div>
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button variant='ghost' size='icon'>
+					<Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+					<Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+					<span className='sr-only'>Toggle theme</span>
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align='end'>
+				<DropdownMenuItem onClick={() => setTheme('light')}>
+					Light
+				</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => setTheme('dark')}>
+					Dark
+				</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => setTheme('system')}>
+					System
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
-};
-
-export default ThemeToggle;
+}

@@ -1,22 +1,15 @@
-import { Footer } from '@/components/shared/Footer';
+import Footer from '@/components/shared/Footer';
 import Header from '@/components/shared/Header';
-import { ThemeContextProvider } from '@/context/ThemeContext';
 import type { Metadata } from 'next';
-import { Merriweather /*, Baskervville*/ } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
 
 import './globals.css';
-
-const merriweather = Merriweather({
-	weight: ['300', '400', '700', '900'],
-	style: 'normal',
-	subsets: ['latin'],
-});
+import { ThemeProvider } from '@/lib/providers/theme-provider';
 
 export const metadata: Metadata = {
-	title:
-		"HolyLens - Exploring the depths of faith and life by the awakening of consciousness through the lens of God's Word.",
+	title: 'HolyLens - Illuminating perspectives by awakening your mindfulness',
 	description:
-		"HolyLens is a place where you can discover and dive into stories from writers all over the world. By sharing real experiences, precious advice, inspirational quotes, etc... you can help others grow, becoming wise and better. HolyLens it's like writing a book, without being a professional writer. Helping people by inspiring and motivating them each day.",
+		'Explore thought-provoking articles on spirituality, philosophy, and personal growth',
 };
 
 export default function RootLayout({
@@ -26,12 +19,21 @@ export default function RootLayout({
 }>) {
 	return (
 		<html id='holyLens' lang='en' dir='ltr' data-theme='light'>
-			<body className={`bg-primary ${merriweather.className}`}>
-				<ThemeContextProvider>
-					<Header />
-					{children}
-					<Footer />
-				</ThemeContextProvider>
+			<body className={GeistSans.className}>
+				<ThemeProvider
+					attribute='class'
+					defaultTheme='system'
+					enableSystem
+					disableTransitionOnChange={false}
+				>
+					<div className='min-h-screen flex flex-col'>
+						<Header />
+						<main className='flex-grow bg-gray-50 dark:bg-gray-800 transition-colors duration-300 pt-24'>
+							{children}
+						</main>
+						<Footer />
+					</div>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

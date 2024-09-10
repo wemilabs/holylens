@@ -1,12 +1,11 @@
 'use server';
 
-import dbConnect from '@/lib/dbConnect';
-import Users from '@/models/users.model';
+import Users from '@/lib/database/models/users.model';
+import connectToDatabase from '@/lib/database/mongoose';
 
 export async function getUsers() {
-	await dbConnect();
-
 	try {
+		await connectToDatabase();
 		const users = await Users.find({}).sort({ createdAt: -1 }).lean().exec();
 		if (users.length === 0) {
 			return { success: false, message: 'No users found' };

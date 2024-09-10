@@ -1,15 +1,13 @@
 import HeroBanner from '@/components/HeroBanner';
-import LatestLenses from '@/components/LatestLenses';
-import PurposeSection from '@/components/PurposeSection';
+import { FeaturedLenses } from '@/components/FeaturedLenses';
+import { Newsletter } from '@/components/NewsLetter';
 
 export default async function Home() {
 	return (
 		<>
 			<HeroBanner />
-			<main className='m-auto max-w-2xl lg:max-w-[78rem] p-6 rounded-md'>
-				<LatestLenses />
-				<PurposeSection />
-			</main>
+			<FeaturedLenses />
+			<Newsletter />
 		</>
 	);
 }

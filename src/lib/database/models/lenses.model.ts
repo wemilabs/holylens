@@ -1,6 +1,6 @@
 import { Document, model, models, Schema } from 'mongoose';
 
-export interface ILenses extends Document {
+interface ILenses extends Document {
 	title: string;
 	content: string;
 	picture?: string;
