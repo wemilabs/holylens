@@ -1,6 +1,7 @@
 'use client';
 
 import { motion as m } from 'framer-motion';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 const HeroBanner = () => {
@@ -23,9 +24,11 @@ const HeroBanner = () => {
 				whileHover={{ scale: 1.05 }}
 				whileTap={{ scale: 0.95 }}
 			>
-				<Button className='bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-300'>
-					Start Reading
-				</Button>
+				<Link href={'/lenses'}>
+					<Button className='bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors duration-300'>
+						Start Reading
+					</Button>
+				</Link>
 			</m.div>
 		</m.section>
 	);

@@ -1,5 +1,6 @@
 'use client';
 
+import { footerLinks } from '@/lib/constants';
 import { motion as m } from 'framer-motion';
 import Link from 'next/link';
 
@@ -11,17 +12,17 @@ const Footer = () => {
 					© 2024 HolyLens. All rights reserved.
 				</p>
 				<div className='flex space-x-6'>
-					{['Privacy Policy', 'Terms of Service'].map(item => (
+					{footerLinks.map(({ label, href }) => (
 						<m.div
-							key={item}
+							key={label}
 							whileHover={{ scale: 1.05 }}
 							whileTap={{ scale: 0.95 }}
 						>
 							<Link
-								href='#'
+								href={href}
 								className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-300'
 							>
-								{item}
+								{label}
 							</Link>
 						</m.div>
 					))}

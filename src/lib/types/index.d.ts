@@ -1,6 +1,6 @@
 declare type NavLink = {
-	name: string;
-	link: string;
+	label: string;
+	href: string;
 };
 
 declare type Lens = {
