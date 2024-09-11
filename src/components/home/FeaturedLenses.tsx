@@ -3,9 +3,9 @@
 import { motion as m } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import M1 from '../../public/77c6986c-be42-45e7-a035-0b27b3d68ea7.webp';
-import M2 from '../../public/3bc134a5-822a-4288-a088-7852ac6db54b.webp';
-import M3 from '../../public/68d4b805-ad42-4628-9279-0e221a268b5b.webp';
+import M1 from '../../../public/77c6986c-be42-45e7-a035-0b27b3d68ea7.webp';
+import M2 from '../../../public/3bc134a5-822a-4288-a088-7852ac6db54b.webp';
+import M3 from '../../../public/68d4b805-ad42-4628-9279-0e221a268b5b.webp';
 
 const lenses = [
 	{
@@ -41,7 +41,7 @@ export function FeaturedLenses() {
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.3 }}
-						whileHover={{ scale: 1.05, rotate: 1 }}
+						whileHover={{ scale: 1.05 }}
 					>
 						<div className='bg-white dark:bg-gray-700 p-6 rounded-lg shadow-sm transition-colors duration-300'>
 							<Image
