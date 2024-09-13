@@ -1,9 +1,25 @@
-export const navLinks: NavLink[] = [
-	{ label: 'Home', href: '/' },
-	{ label: 'Lenses', href: '/lenses' },
-	{ label: 'About', href: '/about' },
-	{ label: 'Write for Us', href: '/write-for-us' },
-	{ label: 'Contact', href: '/contact' },
+import {
+	Home,
+	BookOpenText,
+	Info,
+	Pencil,
+	Mail,
+	PenTool,
+	BookOpen,
+	Users,
+} from 'lucide-react';
+
+export const navItems: NavItem[] = [
+	{ label: 'Home', href: '/', icon: Home },
+	{ label: 'Lenses', href: '/lenses', icon: BookOpenText },
+	{ label: 'About', href: '/about', icon: Info },
+	{ label: 'Write for Us', href: '/write-for-us', icon: Pencil },
+	{ label: 'Contact', href: '/contact', icon: Mail },
+];
+
+export const footerLinks: NavItem[] = [
+	{ label: 'Privacy Policy', href: '/info/privacy' },
+	{ label: 'Terms of Service', href: '/info/terms-of-service' },
 ];
 
 export const testimonials: Testimonial[] = [
@@ -67,7 +83,17 @@ export const faqs: FAQ[] = [
 	},
 ];
 
-export const footerLinks: NavLink[] = [
-	{ label: 'Privacy Policy', href: '/info/privacy' },
-	{ label: 'Terms of Service', href: '/info/terms-of-service' },
+export const writerRequirements: WriterRequirement[] = [
+	{
+		icon: PenTool,
+		text: 'Original, well-researched articles on spirituality, philosophy, and personal growth',
+	},
+	{
+		icon: BookOpen,
+		text: 'Practical guides and techniques for meditation, mindfulness, and self-improvement',
+	},
+	{
+		icon: Users,
+		text: 'Personal experiences and insights that can inspire and enlighten our readers',
+	},
 ];

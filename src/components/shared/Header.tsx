@@ -1,16 +1,22 @@
 'use client';
 
-import { navLinks } from '@/lib/constants';
+import { Button } from '@/components/ui/button';
+import { navItems } from '@/lib/constants';
+import { useAuth } from '@/lib/hooks/useAuth.hook';
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery.hook';
 import { motion as m } from 'framer-motion';
+import { LogIn, LogOut, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { SignInModal, SignUpModal } from './AuthModals';
 import { ThemeToggle } from './ThemeToggle';
-import { SignInModal } from './SignInModal';
-import { Button } from '@/components/ui/button';
 
 const Header = () => {
 	const [isScrolled, setIsScrolled] = useState(false),
-		[isSignInModalOpen, setIsSignInModalOpen] = useState(false);
+		[isSignInModalOpen, setIsSignInModalOpen] = useState(false),
+		[isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+	const isMobile = useMediaQuery('(max-width: 768px)');
+	const { user, signOut } = useAuth();
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -27,6 +33,16 @@ const Header = () => {
 			window.removeEventListener('scroll', handleScroll);
 		};
 	}, []);
+
+	const handleSwitchToSignUp = () => {
+		setIsSignInModalOpen(false);
+		setIsSignUpModalOpen(true);
+	};
+
+	const handleSwitchToSignIn = () => {
+		setIsSignUpModalOpen(false);
+		setIsSignInModalOpen(true);
+	};
 
 	return (
 		<>
@@ -45,8 +61,8 @@ const Header = () => {
 						HolyLens
 					</Link>
 
-					<nav className='hidden sm:flex space-x-6'>
-						{navLinks.map(({ label, href }) => (
+					<nav className='hidden md:flex space-x-6'>
+						{navItems.map(({ label, href }) => (
 							<m.div
 								key={label}
 								whileHover={{ scale: 1.05 }}
@@ -62,28 +78,93 @@ const Header = () => {
 						))}
 					</nav>
 
-					<div className='flex items-center space-x-4'>
-						<m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-							<Button
-								variant='ghost'
-								onClick={() => setIsSignInModalOpen(true)}
-							>
-								Sign In
-							</Button>
-						</m.div>
-						<m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-							<Link href='/auth/sign-up'>
-								<Button>Sign Up</Button>
-							</Link>
-						</m.div>
+					<div className={!isMobile ? 'flex items-center space-x-4' : ''}>
+						{!isMobile ? (
+							user ? (
+								<m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+									<Button variant='ghost' onClick={signOut}>
+										<LogOut className='size-4 mr-2' />
+										Logout
+									</Button>
+								</m.div>
+							) : (
+								<>
+									<m.div
+										whileHover={{ scale: 1.05 }}
+										whileTap={{ scale: 0.95 }}
+									>
+										<Button
+											variant='ghost'
+											onClick={() => setIsSignInModalOpen(true)}
+										>
+											Sign In
+										</Button>
+									</m.div>
+									<m.div
+										whileHover={{ scale: 1.05 }}
+										whileTap={{ scale: 0.95 }}
+									>
+										<Button onClick={() => setIsSignUpModalOpen(true)}>
+											Join Us
+										</Button>
+									</m.div>
+								</>
+							)
+						) : null}
 
 						<ThemeToggle />
 					</div>
 				</div>
 			</header>
+
+			{isMobile ? (
+				<nav className='fixed bottom-1 left-0 right-0 bg-white/35 dark:bg-gray-900/70 shadow-lg z-50 rounded-full backdrop-blur-md'>
+					<div className='flex justify-around items-center h-16'>
+						{navItems.map(item => (
+							<Link
+								key={item.label}
+								href={item.href}
+								className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-300'
+							>
+								<item.icon size={20} />
+							</Link>
+						))}
+						{!user ? (
+							<>
+								<button
+									onClick={() => setIsSignInModalOpen(true)}
+									className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-300'
+								>
+									<LogIn className='size-6' />
+								</button>
+								<button
+									onClick={() => setIsSignUpModalOpen(true)}
+									className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-300'
+								>
+									<UserPlus className='size-6' />
+								</button>
+							</>
+						) : (
+							<m.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+								<Button variant='ghost' onClick={signOut}>
+									<LogOut className='size-4 mr-2' />
+									Logout
+								</Button>
+							</m.div>
+						)}
+					</div>
+				</nav>
+			) : null}
+
 			<SignInModal
 				isOpen={isSignInModalOpen}
 				onClose={() => setIsSignInModalOpen(false)}
+				onSwitchToSignUp={handleSwitchToSignUp}
+			/>
+			<SignUpModal
+				isOpen={isSignUpModalOpen}
+				onClose={() => setIsSignUpModalOpen(false)}
+				onSwitchToSignIn={handleSwitchToSignIn}
 			/>
 		</>
 	);

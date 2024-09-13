@@ -9,12 +9,12 @@
 
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { motion as m } from 'framer-motion';
+import { Search, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Search, X } from 'lucide-react';
 import { useState } from 'react';
 
 const categories = [

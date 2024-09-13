@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
-import { CheckCircle, PenTool, BookOpen, Users } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
+import { writerRequirements } from '@/lib/constants';
 
 export default function WriteForUsPage() {
 	const [name, setName] = useState('');
@@ -46,20 +47,7 @@ export default function WriteForUsPage() {
 					What We're Looking For
 				</h2>
 				<ul className='space-y-4 mb-6'>
-					{[
-						{
-							icon: PenTool,
-							text: 'Original, well-researched articles on spirituality, philosophy, and personal growth',
-						},
-						{
-							icon: BookOpen,
-							text: 'Practical guides and techniques for meditation, mindfulness, and self-improvement',
-						},
-						{
-							icon: Users,
-							text: 'Personal experiences and insights that can inspire and enlighten our readers',
-						},
-					].map((item, index) => (
+					{writerRequirements.map((item, index) => (
 						<m.li
 							key={index}
 							initial={{ opacity: 0, x: -20 }}
@@ -67,7 +55,7 @@ export default function WriteForUsPage() {
 							transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
 							className='flex items-start'
 						>
-							<item.icon className='w-6 h-6 text-blue-500 mr-2 flex-shrink-0 mt-1' />
+							<item.icon className='size-6 text-blue-500 mr-2 flex-shrink-0 mt-1' />
 							<span className='text-gray-600 dark:text-gray-300'>
 								{item.text}
 							</span>

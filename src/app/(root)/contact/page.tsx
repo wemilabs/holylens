@@ -49,6 +49,7 @@ export default function ContactPage() {
 								<m.a
 									key={social}
 									href='#'
+									target='_blank'
 									whileHover={{ scale: 1.1 }}
 									whileTap={{ scale: 0.9 }}
 									className='text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'

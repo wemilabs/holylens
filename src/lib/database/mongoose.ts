@@ -17,12 +17,9 @@ declare global {
 
 // Handling the connection logic and returning the established connection.
 async function connectToDatabase() {
-	if (!cached) {
-		cached = global.mongoose = { conn: null, promise: null };
-	}
-	if (cached.conn) {
-		return cached.conn;
-	}
+	if (!cached) cached = global.mongoose = { conn: null, promise: null };
+
+	if (cached.conn) return cached.conn;
 
 	if (!cached.promise) {
 		const opts = {
@@ -33,7 +30,13 @@ async function connectToDatabase() {
 			return mongoose;
 		});
 	}
-	cached.conn = await cached.promise;
+
+	try {
+		cached.conn = await cached.promise;
+	} catch (error) {
+		cached.promise = null;
+		throw error;
+	}
 	return cached.conn;
 }
 

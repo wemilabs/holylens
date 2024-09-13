@@ -1,15 +1,16 @@
 import { Button } from '@/components/ui/button';
-import { getLensById } from '@/lib/actions/lenses.actions';
+import { getLensById } from '@/lib/actions/lens.actions';
+import { ILens } from '@/lib/database/models/lens.model';
 
 export default async function LensPage({ params }: { params: { id: string } }) {
-	const data = (await getLensById(params.id)) as Lens; // Type assertion to get the correct type
+	const data = (await getLensById(params.id)) as ILens; // Type assertion to get the correct type
 
 	return (
 		<div>
 			<Button>Back</Button>
 			<h1>Lens id:{params.id}</h1>
 			<h1>Title: {data.title}</h1>
-			<h2>Author: {data.author.name}</h2>
+			{/* <h2>Author: {data.author.name}</h2> */}
 			<p>Content: {data.content}</p>
 		</div>
 	);

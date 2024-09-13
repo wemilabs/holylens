@@ -1,16 +1,16 @@
 'use server';
 
-import Lenses from '@/lib/database/models/lenses.model';
+import Lens, { ILens } from '@/lib/database/models/lens.model';
 import connectToDatabase from '@/lib/database/mongoose';
-import { handleError } from '@/lib/utils';
-import { getUsers } from './users.actions';
+import { handleError, parseJsonData } from '@/lib/utils';
+import { getUsers } from './user.actions';
 
-export async function getLenses(): Promise<Lens[] | undefined> {
+export async function getLenses(): Promise<ILens[] | undefined> {
 	try {
 		await connectToDatabase();
 		await getUsers();
 
-		const lenses = await Lenses.find({})
+		const lenses = await Lens.find({})
 			.populate('author')
 			.sort({ createdAt: -1 })
 			.lean()
@@ -18,7 +18,7 @@ export async function getLenses(): Promise<Lens[] | undefined> {
 		if (lenses.length === 0)
 			throw new Error('No lenses found. Please create a lens first.');
 
-		return JSON.parse(JSON.stringify(lenses));
+		return parseJsonData(lenses) as ILens[];
 	} catch (error: any) {
 		console.error('Error fetching lenses:', error);
 		handleError(error);
@@ -26,13 +26,13 @@ export async function getLenses(): Promise<Lens[] | undefined> {
 	}
 }
 
-export async function getLensById(id: string): Promise<Lens | undefined> {
+export async function getLensById(id: string): Promise<ILens | undefined> {
 	try {
 		await connectToDatabase();
-		const lens = await Lenses.findById(id).populate('author').lean().exec();
+		const lens = await Lens.findById(id).populate('author').lean().exec();
 		if (!lens) throw new Error('Lens not found');
 
-		return JSON.parse(JSON.stringify(lens));
+		return parseJsonData(lens) as ILens;
 	} catch (error) {
 		console.error('Error getting lens by id:', error);
 		handleError(error);
