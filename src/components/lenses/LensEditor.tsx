@@ -1,17 +1,19 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { formats, modules } from '@/lib/constants';
 import { useAuth } from '@/lib/hooks/useAuth.hook';
-// import { UploadButton, UploadDropzone } from '@/lib/utils/uploadthing';
+import { UploadDropzone } from '@/lib/utils/uploadthing';
 import '@/styles/quill-custom.css';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import slugify from 'react-slugify';
 import { toast } from 'sonner';
+import SubmitButton from '../shared/SubmitButton';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
 	ssr: false,
@@ -19,15 +21,23 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 });
 
 const LensEditor = () => {
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
-	const [content, setContent] = useState('');
-	const [tags, setTags] = useState('');
-	const [quill, setQuill] = useState<any>(null);
+	const [title, setTitle] = useState(''),
+		[coverImage, setCoverImage] = useState(''),
+		[description, setDescription] = useState(''),
+		[content, setContent] = useState(''),
+		[tags, setTags] = useState(''),
+		[isLoading, setIsLoading] = useState<boolean>(false),
+		[quill, setQuill] = useState<any>(null);
 	const { user } = useAuth();
 	const router = useRouter();
 
 	const handleSave = async (publish: boolean) => {
+		/*
+		 * This function handles the saving of a lens, either as a draft or published.
+		 * It checks if the user is logged in, sets the loading state, constructs the lens object,
+		 * and sends a POST request to the server to save the lens. If successful, it displays
+		 * a success toast and resets the editor state. If not successful, it displays an error toast.
+		 */
 		if (!user) {
 			toast.error('Failure', {
 				description: 'You must be logged in to save a lens',
@@ -35,9 +45,12 @@ const LensEditor = () => {
 			return;
 		}
 
+		setIsLoading(true);
+
 		const lens = {
 			title,
 			slug: slugify(title),
+			coverImage_url: coverImage,
 			description,
 			content,
 			author: user.id,
@@ -66,6 +79,7 @@ const LensEditor = () => {
 			);
 
 			setTitle('');
+			setCoverImage('');
 			setDescription('');
 			setContent('');
 			setTags('');
@@ -78,59 +92,18 @@ const LensEditor = () => {
 			toast.error('Failed to save lens', {
 				description: errorMessage,
 			});
+		} finally {
+			setIsLoading(false);
 		}
 	};
-
-	const handleImageUpload = useCallback(() => {
-		const input = document.createElement('input');
-		input.setAttribute('type', 'file');
-		input.setAttribute('accept', 'image/*');
-		input.click();
-
-		input.onchange = async () => {
-			const file = input.files?.[0];
-			if (file) {
-				// We'll handle the actual upload in the UploadButton component
-			}
-		};
-	}, []);
-
-	const modules = {
-		toolbar: {
-			container: [
-				[{ header: [1, 2, 3, 4, 5, 6, false] }],
-				['bold', 'italic', 'underline', 'strike'],
-				[{ list: 'ordered' }, { list: 'bullet' }],
-				['blockquote', 'code-block'],
-				[{ align: [] }],
-				['link', 'image'],
-				['clean'],
-			],
-			handlers: {
-				image: handleImageUpload,
-			},
-		},
-	};
-
-	const formats = [
-		'header',
-		'bold',
-		'italic',
-		'underline',
-		'strike',
-		'list',
-		'bullet',
-		'blockquote',
-		'code-block',
-		'align',
-		'link',
-		'image',
-	];
 
 	useEffect(() => {
-		if (quill) {
-			setQuill(quill.getEditor());
-		}
+		/*
+		 * Update the state of quill editor whenever the quill instance changes.
+		 * We check if quill is defined and if so, we set the state of quill to the current editor instance.
+		 * This is useful for tracking changes to the editor state or for re-rendering the editor with new content.
+		 */
+		if (quill) setQuill(quill.getEditor());
 	}, [quill]);
 
 	return (
@@ -154,32 +127,6 @@ const LensEditor = () => {
 				</div>
 
 				<div>
-					{/* <UploadButton
-						endpoint='imageUploader'
-						onClientUploadComplete={res => {
-							if (res && res[0] && quill) {
-								const url = res[0].url;
-								const range = quill.getSelection(true);
-								quill.insertEmbed(range.index, 'image', url);
-							}
-						}}
-						onUploadError={(error: Error) => {
-							toast.error(`ERROR! ${error.message}`);
-						}}
-					/>
-					<UploadDropzone
-						endpoint='imageUploader'
-						onClientUploadComplete={res => {
-							setImageUrl(res[0].url);
-							toast.success('Image has successfully been uploaded');
-						}}
-						onUploadError={(error: Error) => {
-							toast.error(`ERROR! ${error.message}`);
-						}}
-					/> */}
-				</div>
-
-				<div>
 					<label
 						htmlFor='description'
 						className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'
@@ -197,6 +144,40 @@ const LensEditor = () => {
 
 				<div>
 					<label
+						htmlFor='coverImage'
+						className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'
+					>
+						Cover Image
+					</label>
+					<input type='hidden' name='coverImage' value={coverImage} />
+					{coverImage ? (
+						<Image
+							src={coverImage}
+							alt='Cover Image'
+							width={200}
+							height={200}
+							className='rounded-lg object-cover size-[200px]'
+						/>
+					) : (
+						<UploadDropzone
+							endpoint='imageUploader'
+							onClientUploadComplete={res => {
+								setCoverImage(res[0].url);
+								toast.success('Success', {
+									description: 'The cover image has been uploaded successfully',
+								});
+							}}
+							onUploadError={() => {
+								toast.error('Error uploading image', {
+									description: 'Something went wrong uploading the imagen',
+								});
+							}}
+						/>
+					)}
+				</div>
+
+				<div>
+					<label
 						htmlFor='content'
 						className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1'
 					>
@@ -206,8 +187,8 @@ const LensEditor = () => {
 						theme='snow'
 						value={content}
 						onChange={setContent}
-						modules={modules}
 						formats={formats}
+						modules={modules}
 						className='bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
 					/>
 				</div>
@@ -229,10 +210,19 @@ const LensEditor = () => {
 				</div>
 
 				<div className='flex justify-end space-x-4'>
-					<Button onClick={() => handleSave(false)} variant='outline'>
-						Save Draft
-					</Button>
-					<Button onClick={() => handleSave(true)}>Publish</Button>
+					<SubmitButton
+						text='Save as Draft'
+						variant='outline'
+						handleStuff={() => handleSave(false)}
+						isLoading={isLoading}
+						className='w-fit'
+					/>
+					<SubmitButton
+						text='Publish'
+						handleStuff={() => handleSave(true)}
+						isLoading={isLoading}
+						className='w-fit'
+					/>
 				</div>
 			</div>
 		</div>

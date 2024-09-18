@@ -31,8 +31,9 @@ const LensSchema: Schema = new Schema(
 			type: String,
 			validate: {
 				validator: function (v: string) {
-					return /^(https?:\/\/)?.+\.(jpg|jpeg|png|gif)$/i.test(v);
+					return /^(https?:\/\/)?.+(\.(jpg|jpeg|png|gif))?$/i.test(v);
 				},
+
 				message: 'Image URL must be a valid image URL',
 			},
 		},

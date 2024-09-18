@@ -24,6 +24,7 @@ export async function POST(request: Request) {
 		const {
 			title,
 			slug,
+			coverImage_url,
 			description,
 			content,
 			tags,
@@ -34,6 +35,7 @@ export async function POST(request: Request) {
 		const newLens = new Lens({
 			title,
 			slug,
+			coverImage_url,
 			description,
 			content,
 			author: decoded.userId,

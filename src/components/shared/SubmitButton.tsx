@@ -17,6 +17,7 @@ interface SubmitButtonProps {
 		| null
 		| undefined;
 	isLoading?: boolean;
+	handleStuff?: () => void;
 }
 
 const SubmitButton = ({
@@ -24,6 +25,7 @@ const SubmitButton = ({
 	className,
 	variant,
 	isLoading,
+	handleStuff,
 }: SubmitButtonProps) => {
 	return (
 		<>
@@ -32,6 +34,7 @@ const SubmitButton = ({
 					className={cn('w-full', className)}
 					variant={variant}
 					type='submit'
+					onClick={handleStuff}
 				>
 					{text}
 				</Button>
