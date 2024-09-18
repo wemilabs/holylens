@@ -1,11 +1,12 @@
 import Footer from '@/components/shared/Footer';
 import Header from '@/components/shared/Header';
+import { Toaster } from '@/components/ui/sonner';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 
 import { AuthProvider } from '@/lib/context/AuthContext';
 import { ThemeProvider } from '@/lib/providers/theme-provider';
-import './globals.css';
+import '../styles/globals.css';
 
 export const metadata: Metadata = {
 	title: 'HolyLens - Illuminating perspectives by awakening your mindfulness',
@@ -32,6 +33,7 @@ export default function RootLayout({
 							<Header />
 							<main className='flex-grow bg-gray-50 dark:bg-gray-800 transition-colors duration-300 pt-24'>
 								{children}
+								<Toaster richColors closeButton />
 							</main>
 							<Footer />
 						</div>

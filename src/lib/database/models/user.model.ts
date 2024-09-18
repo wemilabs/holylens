@@ -50,8 +50,8 @@ const UserSchema: Schema = new Schema(
 				message: 'Avatar must be a valid image URL',
 			},
 		},
-		articlesWritten: [{ type: Schema.Types.ObjectId, ref: 'Article' }],
-		readingList: [{ type: Schema.Types.ObjectId, ref: 'Article' }],
+		articlesWritten: [{ type: Schema.Types.ObjectId, ref: 'Lens' }],
+		readingList: [{ type: Schema.Types.ObjectId, ref: 'Lens' }],
 	},
 	{ timestamps: true }
 );

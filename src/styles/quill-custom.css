@@ -1,0 +1,53 @@
+.ql-container {
+	font-size: 16px;
+	border-bottom-left-radius: 0.375rem;
+	border-bottom-right-radius: 0.375rem;
+	background-color: white;
+}
+
+.dark .ql-container {
+	background-color: #1f2937;
+	color: #e5e7eb;
+}
+
+.ql-toolbar {
+	background-color: #f3f4f6;
+	border-top-left-radius: 0.375rem;
+	border-top-right-radius: 0.375rem;
+}
+
+.dark .ql-toolbar {
+	background-color: #374151;
+}
+
+.ql-toolbar .ql-stroke {
+	stroke: #4b5563;
+}
+
+.dark .ql-toolbar .ql-stroke {
+	stroke: #9ca3af;
+}
+
+.ql-toolbar .ql-fill {
+	fill: #4b5563;
+}
+
+.dark .ql-toolbar .ql-fill {
+	fill: #9ca3af;
+}
+
+.ql-toolbar .ql-picker {
+	color: #4b5563;
+}
+
+.dark .ql-toolbar .ql-picker {
+	color: #9ca3af;
+}
+
+.ql-editor.ql-blank::before {
+	color: #9ca3af;
+}
+
+.dark .ql-editor.ql-blank::before {
+	color: #6b7280;
+}

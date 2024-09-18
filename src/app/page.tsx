@@ -1,9 +1,9 @@
 'use client';
 
-import HeroBanner from '@/components/home/HeroBanner';
-import { FeaturedLenses } from '@/components/home/FeaturedLenses';
-import { Newsletter } from '@/components/home/NewsLetter';
 import { FAQ } from '@/components/home/FAQ';
+import { FeaturedLenses } from '@/components/home/FeaturedLenses';
+import HeroBanner from '@/components/home/HeroBanner';
+import { Newsletter } from '@/components/home/NewsLetter';
 import { Testimonials } from '@/components/home/Testimonials';
 import { useAuth } from '@/lib/hooks/useAuth.hook';
 

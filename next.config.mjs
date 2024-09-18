@@ -6,7 +6,7 @@ const nextConfig = {
 				protocol: 'https',
 				hostname: 'ik.imagekit.io',
 				port: '',
-				pathname: '/vercel/v0/blog/**',
+				pathname: '/vercel/**',
 			},
 		],
 	},

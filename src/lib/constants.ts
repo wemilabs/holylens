@@ -1,11 +1,11 @@
 import {
-	Home,
-	BookOpenText,
-	Info,
-	Pencil,
-	Mail,
-	PenTool,
 	BookOpen,
+	BookOpenText,
+	Home,
+	Info,
+	Mail,
+	Pencil,
+	PenTool,
 	Users,
 } from 'lucide-react';
 
@@ -18,8 +18,9 @@ export const navItems: NavItem[] = [
 ];
 
 export const footerLinks: NavItem[] = [
-	{ label: 'Privacy Policy', href: '/info/privacy' },
-	{ label: 'Terms of Service', href: '/info/terms-of-service' },
+	{ label: 'Terms of Use', href: '/legal/agreement' },
+	{ label: 'Privacy', href: '/legal/privacy-policy' },
+	{ label: 'Support', href: 'mailto:support@holylens.com' },
 ];
 
 export const testimonials: Testimonial[] = [

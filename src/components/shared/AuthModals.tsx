@@ -7,6 +7,7 @@ import { AnimatePresence, motion as m } from 'framer-motion';
 import { X } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import SubmitButton from './SubmitButton';
 
 interface SignInModalProps {
 	isOpen: boolean;
@@ -21,17 +22,21 @@ export function SignInModal({
 }: SignInModalProps) {
 	const [email, setEmail] = useState<string>(''),
 		[password, setPassword] = useState<string>(''),
-		[error, setError] = useState('');
+		[error, setError] = useState(''),
+		[isLoading, setIsLoading] = useState<boolean>(false);
 	const { signIn } = useAuth();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError('');
+		setIsLoading(true);
 		try {
 			await signIn(email, password);
 			onClose();
 		} catch (err) {
 			setError('Invalid credentials');
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -94,9 +99,7 @@ export function SignInModal({
 								/>
 							</div>
 							{error ? <p className='text-red-500 text-sm'>{error}</p> : null}
-							<Button type='submit' className='w-full'>
-								Sign In
-							</Button>
+							<SubmitButton text='Sign In' isLoading={isLoading} />
 						</form>
 
 						<div className='pt-4 flex flex-col items-center space-y-6'>
@@ -144,17 +147,21 @@ export function SignUpModal({
 		[email, setEmail] = useState(''),
 		[password, setPassword] = useState(''),
 		[confirmPassword, setConfirmPassword] = useState(''),
-		[error, setError] = useState('');
+		[error, setError] = useState(''),
+		[isLoading, setIsLoading] = useState<boolean>(false);
 	const { signUp } = useAuth();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError('');
+		setIsLoading(true);
 		try {
 			await signUp(name, email, password);
 			onClose();
 		} catch (err) {
 			setError('Registration failed');
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -247,9 +254,7 @@ export function SignUpModal({
 								/>
 							</div>
 							{error ? <p className='text-red-500 text-sm'>{error}</p> : null}
-							<Button type='submit' className='w-full'>
-								Join Us
-							</Button>
+							<SubmitButton text='Join Us' isLoading={isLoading} />
 						</form>
 
 						<div className='pt-4 flex flex-col items-center space-y-6'>
@@ -268,14 +273,14 @@ export function SignUpModal({
 							<div className='text-xs text-gray-500 dark:text-gray-400'>
 								By signing up, you agree to our{' '}
 								<Link
-									href='/info/terms-of-service'
+									href='/legal/agreement'
 									className='text-blue-600 dark:text-blue-400 hover:underline'
 								>
 									Terms of Service
 								</Link>{' '}
 								and{' '}
 								<Link
-									href='/info/privacy'
+									href='/legal/privacy-policy'
 									className='text-blue-600 dark:text-blue-400 hover:underline'
 								>
 									Privacy Policy.
