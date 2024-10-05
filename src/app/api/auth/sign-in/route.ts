@@ -1,5 +1,4 @@
 import User from '@/lib/database/models/user.model';
-// import withDatabase from '@/lib/database/withDatabase';
 import connectToDatabase from '@/lib/database/mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -32,7 +31,7 @@ export async function POST(req: Request) {
 			);
 
 		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
-			expiresIn: '1h',
+			expiresIn: '1d',
 		});
 
 		return NextResponse.json(
@@ -55,5 +54,3 @@ export async function POST(req: Request) {
 		);
 	}
 }
-
-// export default withDatabase(handler);

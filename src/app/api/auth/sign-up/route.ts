@@ -1,5 +1,4 @@
 import User from '@/lib/database/models/user.model';
-// import withDatabase from '@/lib/database/withDatabase';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
@@ -34,7 +33,7 @@ export async function POST(req: Request) {
 		});
 
 		const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET!, {
-			expiresIn: '1h',
+			expiresIn: '1d',
 		});
 
 		return NextResponse.json(
@@ -57,5 +56,3 @@ export async function POST(req: Request) {
 		);
 	}
 }
-
-// export default withDatabase(handler);

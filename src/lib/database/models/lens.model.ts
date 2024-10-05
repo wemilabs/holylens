@@ -1,4 +1,4 @@
-import { Document, model, models, Schema, Types } from 'mongoose';
+import { Document, model, models, Schema } from 'mongoose';
 
 export interface ILens extends Document {
 	title: string;
@@ -6,10 +6,11 @@ export interface ILens extends Document {
 	coverImage_url?: string;
 	content: string;
 	slug: string;
-	author: Types.ObjectId;
+	author: Schema.Types.ObjectId;
 	tags: string[];
 	isPublished: boolean;
 	publishedDate: Date;
+	readTime?: string;
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -78,6 +79,7 @@ const LensSchema: Schema = new Schema(
 				return this.isPublished;
 			},
 		},
+		readTime: { type: String, default: '2 min read' },
 	},
 	{ timestamps: true }
 );

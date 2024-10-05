@@ -8,7 +8,6 @@ import {
 	PenTool,
 	Users,
 } from 'lucide-react';
-import { useCallback } from 'react';
 
 export const navItems: NavItem[] = [
 	{ label: 'Home', href: '/', icon: Home },
@@ -118,30 +117,15 @@ export const formats: ReactQuillEditorFormats = [
 export const modules: ReactQuillEditorModules = {
 	toolbar: {
 		container: [
+			[{ font: [] }],
 			[{ header: [1, 2, 3, 4, 5, 6, false] }],
 			['bold', 'italic', 'underline', 'strike'],
 			[{ list: 'ordered' }, { list: 'bullet' }],
-			['blockquote', 'code-block'],
 			[{ align: [] }],
-			['link', 'image'],
+			['blockquote', 'code-block'],
+			['link', 'image', 'formula'],
+			[{ color: [] }, { background: [] }],
 			['clean'],
 		],
-		handlers: {
-			image: function () {
-				useCallback(() => {
-					const input = document.createElement('input');
-					input.setAttribute('type', 'file');
-					input.setAttribute('accept', 'image/*');
-					input.click();
-
-					input.onchange = async () => {
-						const file = input.files?.[0];
-						if (file) {
-							// We'll handle the actual upload in the UploadButton component
-						}
-					};
-				}, []);
-			},
-		},
 	},
 };
