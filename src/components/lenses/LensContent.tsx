@@ -1,14 +1,19 @@
 'use client';
 
+import { createComment, getComments } from '@/lib/actions/comment.action';
+import { useAuth } from '@/lib/hooks/useAuth.hook';
 import { format } from 'date-fns';
 import DOMPurify from 'isomorphic-dompurify';
-import Image from 'next/image';
-import { Button } from '../ui/button';
-import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { Button } from '../ui/button';
+import { CommentForm } from './CommentForm';
 
 interface LensContentProps {
 	lens: {
+		_id: string;
 		title: string;
 		content: string;
 		author: {
@@ -20,8 +25,41 @@ interface LensContentProps {
 	};
 }
 
+interface Comment {
+	_id: string;
+	content: string;
+	author: {
+		name: string;
+	};
+	createdAt: string;
+}
+
 export function LensContent({ lens }: LensContentProps) {
+	const [comments, setComments] = useState<Comment[]>([]);
+	const { user } = useAuth();
 	const sanitizedContent = DOMPurify.sanitize(lens.content);
+
+	useEffect(() => {
+		fetchComments();
+	}, []);
+
+	const fetchComments = async () => {
+		try {
+			const fetchedComments = await getComments(lens._id);
+			setComments(fetchedComments);
+		} catch (error) {
+			console.error('Error fetching comments:', error);
+		}
+	};
+
+	const handleCommentSubmit = async (content: string) => {
+		try {
+			const newComment = await createComment(lens._id, content);
+			setComments([newComment, ...comments]);
+		} catch (error) {
+			console.error('Error submitting comment:', error);
+		}
+	};
 
 	return (
 		<article className='max-w-3xl mx-auto'>
@@ -66,6 +104,25 @@ export function LensContent({ lens }: LensContentProps) {
 						{tag}
 					</span>
 				))}
+			</div>
+
+			<div className='mt-12'>
+				<h2 className='text-2xl font-bold mb-4'>Comments</h2>
+				{user ? (
+					<CommentForm onSubmit={handleCommentSubmit} />
+				) : (
+					<p className='mb-4'>
+						Please{' '}
+						<Link
+							href='/api/auth/sign-in'
+							className='text-primary hover:underline'
+						>
+							sign in
+						</Link>{' '}
+						to leave a comment.
+					</p>
+				)}
+				{/* <CommentList comments={comments} /> */}
 			</div>
 
 			<div className='mt-12'>

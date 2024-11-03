@@ -7,8 +7,9 @@ export interface IUser extends Document {
 	role: 'reader' | 'author';
 	bio?: string;
 	avatar?: string;
-	articlesWritten: Types.ObjectId[];
-	readingList: Types.ObjectId[];
+	articlesWritten?: Types.ObjectId[];
+	readingList?: Types.ObjectId[];
+	comments?: Types.ObjectId[];
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -52,6 +53,7 @@ const UserSchema: Schema = new Schema(
 		},
 		articlesWritten: [{ type: Schema.Types.ObjectId, ref: 'Lens' }],
 		readingList: [{ type: Schema.Types.ObjectId, ref: 'Lens' }],
+		comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 	},
 	{ timestamps: true }
 );

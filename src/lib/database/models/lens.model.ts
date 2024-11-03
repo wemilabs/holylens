@@ -1,4 +1,4 @@
-import { Document, model, models, Schema } from 'mongoose';
+import mongoose, { Document, model, models, Schema } from 'mongoose';
 
 export interface ILens extends Document {
 	title: string;
@@ -6,8 +6,9 @@ export interface ILens extends Document {
 	coverImage_url?: string;
 	content: string;
 	slug: string;
-	author: Schema.Types.ObjectId;
+	author: mongoose.Types.ObjectId;
 	tags: string[];
+	comments: mongoose.Types.ObjectId[];
 	isPublished: boolean;
 	publishedDate: Date;
 	readTime?: string;
@@ -66,6 +67,7 @@ const LensSchema: Schema = new Schema(
 				},
 			},
 		],
+		comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 		isPublished: { type: Boolean, default: false },
 		publishedDate: {
 			type: Date,

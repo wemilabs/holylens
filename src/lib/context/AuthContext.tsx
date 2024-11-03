@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, type JSX } from 'react';
 import { toast } from 'sonner';
 
 export const AuthContext = createContext<AuthContextType | undefined>(

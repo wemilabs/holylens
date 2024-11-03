@@ -29,24 +29,24 @@ export const testimonials: Testimonial[] = [
 			'HolyLens has been a guiding light in my spiritual journey. The articles are insightful and have helped me gain a deeper understanding of myself and the world around me.',
 		author: 'Sarah Johnson',
 		title: 'Yoga Instructor',
-		avatar:
-			'https://ik.imagekit.io/vercel/v0/blog/avatar-sarah.jpg?tr=w-100,h-100,fo-auto',
+		// avatar:
+		// 	'https://ik.imagekit.io/vercel/v0/blog/avatar-sarah.jpg?tr=w-100,h-100,fo-auto',
 	},
 	{
 		quote:
 			"As a philosophy student, I find the content on HolyLens to be both intellectually stimulating and practically applicable. It's rare to find a resource that bridges academic thought with everyday life so seamlessly.",
 		author: 'Michael Chen',
 		title: 'Philosophy Student',
-		avatar:
-			'https://ik.imagekit.io/vercel/v0/blog/avatar-michael.jpg?tr=w-100,h-100,fo-auto',
+		// avatar:
+		// 	'https://ik.imagekit.io/vercel/v0/blog/avatar-michael.jpg?tr=w-100,h-100,fo-auto',
 	},
 	{
 		quote:
 			"The mindfulness techniques I've learned from HolyLens have transformed my daily routine. I feel more centered, focused, and at peace than ever before.",
 		author: 'Emily Rodriguez',
 		title: 'Marketing Executive',
-		avatar:
-			'https://ik.imagekit.io/vercel/v0/blog/avatar-emily.jpg?tr=w-100,h-100,fo-auto',
+		// avatar:
+		// 	'https://ik.imagekit.io/vercel/v0/blog/avatar-emily.jpg?tr=w-100,h-100,fo-auto',
 	},
 ];
 

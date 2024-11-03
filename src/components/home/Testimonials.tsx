@@ -1,9 +1,10 @@
 'use client';
 
-import { motion as m } from 'framer-motion';
-import Image from 'next/image';
-import { Quote } from 'lucide-react';
 import { testimonials } from '@/lib/constants';
+import { motion as m } from 'framer-motion';
+import { Quote } from 'lucide-react';
+import Image from 'next/image';
+import Avatar from '../../../public/avatar-01.jpg';
 
 export function Testimonials() {
 	return (
@@ -13,7 +14,7 @@ export function Testimonials() {
 					What Our Readers Say
 				</h2>
 				<div className='grid gap-8 md:grid-cols-3'>
-					{testimonials.map((testimonial, index) => (
+					{testimonials.map(({ title, author, quote, avatar }, index) => (
 						<m.div
 							key={index}
 							initial={{ opacity: 0, y: 20 }}
@@ -22,23 +23,23 @@ export function Testimonials() {
 							className='bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md'
 						>
 							<Quote className='w-8 h-8 text-blue-500 mb-4' />
-							<p className='text-gray-600 dark:text-gray-300 mb-4'>
-								{testimonial.quote}
+							<p className='text-gray-600 dark:text-gray-300 mb-4 italic'>
+								{quote}
 							</p>
 							<div className='flex items-center'>
 								<Image
-									src={testimonial.avatar}
-									alt={testimonial.author}
+									src={avatar ?? Avatar}
+									alt={author}
 									width={50}
 									height={50}
-									className='rounded-full mr-4'
+									className='size-11 rounded-full mr-4'
 								/>
 								<div>
 									<p className='font-semibold text-gray-900 dark:text-white'>
-										{testimonial.author}
+										{author}
 									</p>
 									<p className='text-sm text-gray-500 dark:text-gray-400'>
-										{testimonial.title}
+										{title}
 									</p>
 								</div>
 							</div>

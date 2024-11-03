@@ -14,6 +14,7 @@ import 'react-quill/dist/quill.snow.css';
 import slugify from 'react-slugify';
 import { toast } from 'sonner';
 import SubmitButton from '../shared/SubmitButton';
+import { revalidateLenses } from '@/lib/actions/lens.actions';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
 	ssr: false,
@@ -53,7 +54,7 @@ const LensEditor = () => {
 			coverImage_url: coverImage,
 			description,
 			content,
-			author: user.id,
+			author: user._id,
 			tags: tags.split(',').map(tag => tag.trim()),
 			isPublished: publish,
 			publishedDate: publish ? new Date().toISOString() : null,
@@ -72,7 +73,7 @@ const LensEditor = () => {
 
 			if (!response.ok) throw new Error('Failed to save lens');
 
-			const savedLens = await response.json();
+			await response.json();
 			toast.success(
 				publish ? 'Lens published successfully' : 'Lens saved as draft',
 				{ description: 'The lens was saved successfully' }
@@ -85,7 +86,7 @@ const LensEditor = () => {
 			setTags('');
 
 			router.push('/lenses');
-			// router.push(`/lenses/${savedLens._id}`);
+			revalidateLenses();
 		} catch (error: unknown) {
 			const errorMessage =
 				error instanceof Error ? error.message : 'An unknown error occurred';

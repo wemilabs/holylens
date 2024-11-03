@@ -20,7 +20,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html id='holyLens' lang='en' dir='ltr' data-theme='light'>
+		<html id='holyLens' lang='en' dir='ltr'>
 			<body className={GeistSans.className}>
 				<ThemeProvider
 					attribute='class'

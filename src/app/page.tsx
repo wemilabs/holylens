@@ -45,7 +45,7 @@ export default function Home() {
 									User ID
 								</dt>
 								<dd className='mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2'>
-									{user.id}
+									{user._id}
 								</dd>
 							</div>
 							<div className='bg-white dark:bg-gray-700 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>

@@ -9,11 +9,27 @@ declare type AuthContextType = {
 	signOut: () => void;
 };
 
-// declare type LensCategory = {
-// 	_id: string;
-// 	title: string;
-// 	lenses: Lens[];
-// };
+declare type User = {
+	_id: string;
+	name: string;
+	email: string;
+	role: string;
+};
+
+declare type Lens = {
+	_id: string;
+	title: string;
+	description: string;
+	content: string;
+	slug: string;
+	author: {
+		name: string;
+	};
+	publishedDate: string;
+	tags: string[];
+	coverImage_url?: string;
+	readTime?: string;
+};
 
 declare type NavItem = {
 	label: string;
@@ -34,7 +50,7 @@ declare type Testimonial = {
 	quote: string;
 	author: string;
 	title: string;
-	avatar: string;
+	avatar?: string;
 };
 
 declare type FAQ = {
