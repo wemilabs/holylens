@@ -67,7 +67,6 @@ const SearchBar = ({ initialSearchTerm }: SearchBarProps) => {
 	// }, [updateSearchParams, router]);
 
 	// TODO: Make that once clicking the delete search button, it also affects directly the url
-	// TODO: Add debounce?
 
 	return (
 		<form onSubmit={handleSearch} className='flex max-w-md mx-auto mb-8'>

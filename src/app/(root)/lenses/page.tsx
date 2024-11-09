@@ -3,6 +3,19 @@ import { getCategories } from '@/lib/actions/lens.actions';
 import { LensesContent } from '@/components/lenses/LensesContent';
 import CategoryFilter from '@/components/lenses/CategoryFilter';
 import SearchBar from '@/components/lenses/SearchBar';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const SkeletonCard = () => {
+	return (
+		<div className='flex flex-col space-y-3'>
+			<Skeleton className='h-[125px] w-[250px] rounded-xl bg-background text-foreground' />
+			<div className='space-y-2'>
+				<Skeleton className='h-4 w-[250px] bg-background text-foreground' />
+				<Skeleton className='h-4 w-[200px] bg-background text-foreground' />
+			</div>
+		</div>
+	);
+};
 
 export default async function LensesPage(props: {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -35,8 +48,15 @@ export default async function LensesPage(props: {
 
 				<div className='flex-grow'>
 					<SearchBar initialSearchTerm={searchTerm} />
+
 					<Suspense
-						fallback={<div className='text-center'>Loading lenses...</div>}
+						fallback={
+							<div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
+								{[1, 2, 3].map(i => (
+									<SkeletonCard key={i} />
+								))}
+							</div>
+						}
 					>
 						<LensesContent
 							searchTerm={searchTerm}
