@@ -146,7 +146,7 @@ export default function WriteForUsPage() {
 						/>
 					</div>
 					<Button type='submit' className='w-full'>
-						<CheckCircle className='w-4 h-4 mr-2' />
+						<CheckCircle className='size-4 mr-2' />
 						Submit Pitch
 					</Button>
 				</form>

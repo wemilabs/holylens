@@ -35,7 +35,11 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 			localStorage.setItem('token', data.token);
 
 			// Redirect to home page after successful login
-			router.push('/');
+			user?.role === 'author'
+				? router.push('/dashboard')
+				: user?.role === 'admin'
+				? router.push('/admin')
+				: router.push('/account');
 			toast.success('Welcome back!', {
 				description: 'You have successfully signed in.',
 			});
@@ -63,7 +67,11 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 			localStorage.setItem('token', data.token);
 
 			// Redirect to home page after successful registration
-			router.push('/');
+			user?.role === 'author'
+				? router.push('/dashboard')
+				: user?.role === 'admin'
+				? router.push('/admin')
+				: router.push('/account');
 			toast.success('Welcome to HolyLens!', {
 				description: 'Your account has been successfully created.',
 			});

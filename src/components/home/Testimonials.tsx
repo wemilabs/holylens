@@ -4,7 +4,6 @@ import { testimonials } from '@/lib/constants';
 import { motion as m } from 'framer-motion';
 import { Quote } from 'lucide-react';
 import Image from 'next/image';
-import Avatar from '../../../public/avatar-01.jpg';
 
 export function Testimonials() {
 	return (
@@ -28,7 +27,7 @@ export function Testimonials() {
 							</p>
 							<div className='flex items-center'>
 								<Image
-									src={avatar ?? Avatar}
+									src={avatar as string}
 									alt={author}
 									width={50}
 									height={50}

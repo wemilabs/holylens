@@ -3,7 +3,6 @@
 import { motion as m } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import mounts from '../../../../public/mounts.webp';
 
 export default function AboutPage() {
 	return (
@@ -24,7 +23,7 @@ export default function AboutPage() {
 					introspective individuals.
 				</p>
 				<Image
-					src={mounts}
+					src='https://utfs.io/a/5n5vhs0v3c/fXNe0o275jNhBrVgbhzJn8Dcu7oflzN9MPFR6OS4CegQLITa'
 					alt='Group meditation'
 					width={1200}
 					height={630}

@@ -48,7 +48,7 @@ export async function getLenses(
 			.limit(limit)
 			.populate('author', 'name')
 			.select(
-				'title description content slug author publishedDate tags coverImage_url readTime'
+				'title description content slug author publishedDate tags coverImage_url readTime likes_count comments_count favorites_count views_count isPublished'
 			)
 			.lean();
 
@@ -78,7 +78,7 @@ export async function getLensById(id: string) {
 		const lens = await Lens.findById(id)
 			.populate('author', 'name')
 			.select(
-				'title description content slug author publishedDate tags coverImage_url readTime'
+				'title description content slug author publishedDate tags coverImage_url readTime likes_count comments_count favorites_count views_count isPublished'
 			)
 			.lean();
 

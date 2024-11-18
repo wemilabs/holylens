@@ -4,7 +4,7 @@ export interface IUser extends Document {
 	name: string;
 	email: string;
 	password: string;
-	role: 'reader' | 'author';
+	role: 'reader' | 'author' | 'admin';
 	bio?: string;
 	avatar?: string;
 	articlesWritten?: Types.ObjectId[];
@@ -37,7 +37,12 @@ const UserSchema: Schema = new Schema(
 			minlength: [9, 'Password must be at least 9 characters long'],
 			maxlength: [128, 'Password cannot exceed 128 characters'],
 		},
-		role: { type: String, enum: ['reader', 'author'], default: 'reader' },
+		role: {
+			type: String,
+			enum: ['reader', 'author', 'admin'],
+			required: true,
+			default: 'reader',
+		},
 		bio: {
 			type: String,
 			maxlength: [500, 'Bio cannot exceed 500 characters'],

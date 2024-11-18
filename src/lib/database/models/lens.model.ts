@@ -12,6 +12,10 @@ export interface ILens extends Document {
 	isPublished: boolean;
 	publishedDate: Date;
 	readTime?: string;
+	likes_count?: number;
+	comments_count?: number;
+	favorites_count?: number;
+	views_count?: number;
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -68,6 +72,16 @@ const LensSchema: Schema = new Schema(
 			},
 		],
 		comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+		comments_count: {
+			type: Number,
+			value: function (this: ILens) {
+				return this.comments.length;
+			},
+			default: 0,
+		},
+		likes_count: { type: Number, default: 0 },
+		favorites_count: { type: Number, default: 0 },
+		views_count: { type: Number, default: 0 },
 		isPublished: { type: Boolean, default: false },
 		publishedDate: {
 			type: Date,

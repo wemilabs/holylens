@@ -1,31 +1,34 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
-import { AnchorHTMLAttributes } from 'react';
 
-interface ShinyButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {}
+interface ShinyButtonProps {
+	children: React.ReactNode;
+	onceClicked: () => void;
+	additionalClasses?: string;
+}
 
-export const ShinyButton = ({
-	className,
+const ShinyButton = ({
 	children,
-	href,
-	...props
-}: ShinyButtonProps) => {
+	onceClicked,
+	additionalClasses,
+}: ShinyButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
 	return (
-		<Link
-			href={href ?? '#'}
-			className={cn(
-				'group relative flex transform items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md border border-white bg-brand-700 px-8 text-base/7 font-medium text-white transition-all duration-300 hover:ring-2 hover:ring-brand-700 hover:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-offset-2',
-				className
-			)}
-			{...props}
+		<Button
+			className='group transform bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-all duration-300 hover:ring-2 hover:ring-brand-700 hover:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-offset-2'
+			onClick={onceClicked}
 		>
-			<span className='relative z-10 flex items-center gap-2'>
-				{children}
-				<ArrowRight className='size-4 shrink-0 text-white transition-transform duration-300 ease-in-out group-hover:translate-x-[2px]' />
-			</span>
+			{children}
 
-			<div className='ease-[cubic-bezier(0.19,1,0.22,1)] absolute -left-[75px] -top-[50px] -z-10 h-[155px] w-8 rotate-[35deg] bg-white opacity-20 transition-all duration-500 group-hover:left-[120%]' />
-		</Link>
+			<div
+				className={cn(
+					'ease-\\[cubic-bezier(0.19,1,0.22,1)\\] absolute -left-[54px] -top-[25px] -z-10 w-8 h-[90px] rotate-[35deg] bg-white opacity-0 group-hover:opacity-20 transition-all duration-500 group-hover:left-[120%]',
+					additionalClasses
+				)}
+			/>
+		</Button>
 	);
 };
+
+export default ShinyButton;
