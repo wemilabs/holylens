@@ -29,11 +29,17 @@ export default function CategorySelector({
 
 		const search = current.toString();
 		const query = search ? `?${search}` : '';
-		router.push(`/account/lenses${query}`);
+		// router.push(`/account/lenses${query}`);
 	};
 
 	return (
 		<>
+			<Button
+				variant={selectedCategories.length === 0 ? 'secondary' : 'ghost'}
+				className='w-full justify-start mb-1'
+			>
+				All
+			</Button>
 			{categories.map(category => (
 				<Button
 					key={category}

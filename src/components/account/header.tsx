@@ -10,15 +10,19 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Search, Bell, ChevronDown } from 'lucide-react';
+import { Search, Bell, ChevronDown /*, LoaderCircle*/ } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { ThemeToggle } from '../shared/theme-toggle';
 import { useAuth } from '@/lib/hooks/useAuth.hook';
+import { useRouter } from 'next/navigation';
+import { clearURLParam } from '@/lib/utils';
 
 const Header = () => {
 	const [isScrolled, setIsScrolled] = useState(false),
+		// [isLoading, setIsLoading] = useState(false),
 		[searchTerm, setSearchTerm] = useState('');
 	const { user, signOut } = useAuth();
+	const router = useRouter();
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -36,10 +40,23 @@ const Header = () => {
 		};
 	}, []);
 
-	const handleSearch = (e: React.FormEvent) => {
+	const handleSearch = async (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log(`Searching for "${searchTerm}"`);
-		// Implement search logic here
+		// setIsLoading(true);
+		router.push(`/account?search=${searchTerm}`);
+		// setIsLoading(false);
+	};
+
+	const handleClearSearch = () => {
+		setSearchTerm('');
+		router.replace(clearURLParam('search')); // Update the URL without reloading the page
+	};
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(e.target.value);
+		if (e.target.value === '') {
+			handleClearSearch(); // Call clear function if input is empty
+		}
 	};
 
 	return (
@@ -52,19 +69,25 @@ const Header = () => {
 		>
 			<div className='container mx-auto px-4 py-4'>
 				<div className='flex items-center justify-between'>
-					<Link href='/dashboard' className='text-2xl font-bold text-primary'>
+					<Link href='/account' className='text-2xl font-bold text-primary'>
 						HolyLens
 					</Link>
 					<div className='flex items-center space-x-4'>
 						<form onSubmit={handleSearch} className='relative hidden md:block'>
+							{/* {isLoading ? (
+								<LoaderCircle className='absolute left-2 top-2 text-gray-400 animate-spin' />
+							) : (
+								<Search className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400' />
+							)} */}
 							<Search className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400' />
 							<Input
 								type='search'
 								placeholder='Search...'
 								value={searchTerm}
-								onChange={e => setSearchTerm(e.target.value)}
+								onChange={handleInputChange}
 								className='pl-8 w-64'
 							/>
+							<Input type='submit' className='hidden' />
 						</form>
 						<Button variant='ghost' size='icon'>
 							<Bell className='size-5' />

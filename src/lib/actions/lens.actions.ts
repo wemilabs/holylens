@@ -22,7 +22,7 @@ export async function getCategories() {
 export async function getLenses(
 	selectedCategories: string[] = [],
 	page: number = 1,
-	limit: number = 10,
+	limit: number = 5,
 	searchTerm: string = ''
 ) {
 	await connectToDatabase();
@@ -37,6 +37,7 @@ export async function getLenses(
 			query.$or = [
 				{ title: { $regex: searchTerm, $options: 'i' } },
 				{ content: { $regex: searchTerm, $options: 'i' } },
+				{ tags: { $in: searchTerm.split(',') } },
 			];
 		}
 

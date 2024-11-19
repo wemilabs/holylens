@@ -15,28 +15,23 @@ import TabNavigation from '@/components/account/tab-navigation';
 import { getCategories } from '@/lib/actions/lens.actions';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { LensesContent } from '@/components/lenses/lenses-content';
+import { LensesContent } from '@/components/account/lenses-content';
 
 const SkeletonCard = () => {
 	return (
 		<div className='flex flex-col space-y-1'>
-			<Skeleton className='h-[125px] w-[250px] rounded-xl bg-background text-foreground' />
+			<Skeleton className='h-16 rounded-xl bg-background text-foreground' />
 			<div className='space-y-2'>
-				<Skeleton className='h-4 w-[250px] bg-background text-foreground' />
-				<Skeleton className='h-4 w-[200px] bg-background text-foreground' />
+				<Skeleton className='h-8 w-3/4 bg-background text-foreground' />
+				<Skeleton className='h-8 w-1/2 bg-background text-foreground' />
 			</div>
 		</div>
 	);
 };
 
 // const categories = [
-// 	'All',
-// 	'Meditation',
-// 	'Mindfulness',
-// 	'Spirituality',
 // 	'Personal Growth',
 // 	'Wellness',
-// 	'Philosophy',
 // 	'Yoga',
 // 	'Buddhism',
 // 	'Christianity',
@@ -45,36 +40,6 @@ const SkeletonCard = () => {
 // 	'Taoism',
 // 	'New Age',
 // 	'Astrology',
-// ];
-
-// const lenses = [
-// 	{
-// 		id: 1,
-// 		title: 'Mindfulness Meditation',
-// 		author: 'John Doe',
-// 		likes: 120,
-// 		comments: 15,
-// 		tags: ['meditation', 'mindfulness'],
-// 		image: '/placeholder.svg?height=200&width=400',
-// 	},
-// 	{
-// 		id: 2,
-// 		title: 'The Power of Gratitude',
-// 		author: 'Jane Smith',
-// 		likes: 95,
-// 		comments: 8,
-// 		tags: ['gratitude', 'positivity'],
-// 		image: '/placeholder.svg?height=200&width=400',
-// 	},
-// 	{
-// 		id: 3,
-// 		title: 'Understanding Karma',
-// 		author: 'Alex Johnson',
-// 		likes: 150,
-// 		comments: 22,
-// 		tags: ['karma', 'spirituality'],
-// 		image: '/placeholder.svg?height=200&width=400',
-// 	},
 // ];
 
 const communities = [
@@ -156,7 +121,7 @@ export default async function AccountPage(props: {
 
 	return (
 		<div className='flex flex-col md:flex-row gap-8'>
-			<aside className='w-full md:w-64 space-y-6'>
+			<aside className='w-full md:w-64 space-y-6 md:fixed md:top-28 md:left-4'>
 				<Card>
 					<CardHeader>
 						<CardTitle>Categories</CardTitle>
@@ -172,9 +137,9 @@ export default async function AccountPage(props: {
 				</Card>
 			</aside>
 
-			<div className='flex-1'>
+			<div className='flex-1 md:pl-72'>
 				<div className='flex justify-between items-center mb-6'>
-					<h1 className='text-3xl font-bold'>Spiritual Lenses</h1>
+					<h1 className='text-3xl font-bold'>Within The Temple</h1>
 					<Button>
 						<Plus className='mr-2 size-4' /> Create Lens
 					</Button>

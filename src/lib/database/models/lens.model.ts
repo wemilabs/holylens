@@ -4,7 +4,7 @@ export interface ILens extends Document {
 	title: string;
 	description: string;
 	coverImage_url?: string;
-	content: string;
+	content?: string;
 	slug: string;
 	author: mongoose.Types.ObjectId;
 	tags: string[];
@@ -35,15 +35,15 @@ const LensSchema: Schema = new Schema(
 		},
 		coverImage_url: {
 			type: String,
-			validate: {
-				validator: function (v: string) {
-					return /^(https?:\/\/)?.+(\.(jpg|jpeg|png|gif))?$/i.test(v);
-				},
+			// validate: {
+			// 	validator: function (v: string) {
+			// 		return /^(https?:\/\/)?.+(\.(jpg|jpeg|png|gif))?$/i.test(v);
+			// 	},
 
-				message: 'Image URL must be a valid image URL',
-			},
+			// 	message: 'Image URL must be a valid image URL',
+			// },
 		},
-		content: { type: String, required: true },
+		content: { type: String /*required: true*/ },
 		slug: {
 			type: String,
 			required: true,

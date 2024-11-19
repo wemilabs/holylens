@@ -10,7 +10,7 @@ export async function LensesContent({
 	searchTerm,
 	selectedCategories,
 }: LensesContentProps) {
-	const initialData = await getLenses(selectedCategories, 1, 10, searchTerm);
+	const initialData = await getLenses(selectedCategories, 1, 5, searchTerm);
 
 	const loadMore = async () => {
 		'use server';
@@ -19,7 +19,7 @@ export async function LensesContent({
 			const newData = await getLenses(
 				selectedCategories,
 				nextPage,
-				10,
+				5,
 				searchTerm
 			);
 			return newData.lenses;

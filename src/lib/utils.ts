@@ -5,19 +5,6 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-export function parseJsonData<T>(data: T): T {
-	try {
-		if (typeof data === 'string') {
-			return JSON.parse(data) as T;
-		} else {
-			return JSON.parse(JSON.stringify(data)) as T;
-		}
-	} catch (error) {
-		console.error('Error parsing JSON data:', error);
-		return data; // Return original data if parsing fails
-	}
-}
-
 export const handleError = (error: unknown) => {
 	if (error instanceof Error) {
 		console.error(error.message);
@@ -29,4 +16,17 @@ export const handleError = (error: unknown) => {
 		console.error(error);
 		throw new Error(`Unknown error: ${JSON.stringify(error)}`);
 	}
+};
+
+export const clearURLParam = (param: string) => {
+	const url = new URL(window.location.href);
+	switch (param) {
+		case 'search':
+			url.searchParams.delete(param);
+			break;
+		default:
+			return window.location.pathname;
+	}
+
+	return url.toString(); // Return the updated URL
 };

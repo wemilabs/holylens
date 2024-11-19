@@ -1,16 +1,16 @@
-import { Heart, MessageCircle } from 'lucide-react';
+import { ArrowRight, Bookmark, Heart, MessageCircle } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import {
 	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
-	CardDescription,
-	CardContent,
-	CardFooter,
 } from '../ui/card';
-import { Badge } from '../ui/badge';
-import Image from 'next/image';
-import Link from 'next/link';
 
 interface LensCardProps {
 	lens: {
@@ -52,16 +52,24 @@ const lensCard = ({ lens }: LensCardProps) => {
 			<div className='md:flex'>
 				<div className='md:w-1/3'>
 					<Image
-						src={coverImage_url?.replace('/f/', '/a/5n5vhs0v3c/') ?? ''}
+						src={
+							coverImage_url?.replace('/f/', '/a/5n5vhs0v3c/') ||
+							'https://utfs.io/a/5n5vhs0v3c/fXNe0o275jNhLMaMgPyr1U0RfETg7K8AuPGp5hqYH3dx6cCt'
+						}
 						alt={title}
 						width={400}
 						height={200}
-						className='object-cover w-full h-52 rounded-t-lg md:rounded-l-lg md:rounded-t-none'
+						className='object-cover w-full h-56 md:min-h-full rounded-t-lg md:rounded-l-lg md:rounded-t-none'
 					/>
 				</div>
 				<div className='md:w-2/3'>
 					<CardHeader>
-						<CardTitle>{lens.title}</CardTitle>
+						<div className='flex justify-between items-center'>
+							<CardTitle>{lens.title}</CardTitle>
+							<Button variant='ghost' size='sm'>
+								<Bookmark className='size-5' />
+							</Button>
+						</div>
 						<CardDescription>By {authorName}</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -72,20 +80,25 @@ const lensCard = ({ lens }: LensCardProps) => {
 								</Badge>
 							))}
 						</div>
+						{/* <p className='text-gray-600 dark:text-gray-300 mt-4'>
+							{description.replace(/<[^>]*>/g, '').slice(0, 100)}...
+						</p> */}
 					</CardContent>
 
 					<CardFooter className='flex justify-between'>
 						<div className='flex items-center space-x-4'>
 							<Button variant='ghost' size='sm'>
-								<Heart className='mr-2 h-4 w-4' /> {likes_count}
+								<Heart className='mr-2 size-4' /> {likes_count}
 							</Button>
 							<Button variant='ghost' size='sm'>
-								<MessageCircle className='mr-2 h-4 w-4' /> {comments_count}
+								<MessageCircle className='mr-2 size-4' /> {comments_count}
 							</Button>
 						</div>
 
 						<Link href={`/account/lenses/${id}`}>
-							<Button variant='outline'>Read More</Button>
+							<Button variant='outline'>
+								Read More <ArrowRight className='ml-2 size-4' />
+							</Button>
 						</Link>
 					</CardFooter>
 				</div>

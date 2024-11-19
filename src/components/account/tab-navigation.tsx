@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '../ui/button';
 import { Filter } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 
 interface TabNavigationProps {
 	lensesContent: React.ReactNode;
@@ -19,6 +20,8 @@ export default function TabNavigation({
 	discussionsContent,
 }: TabNavigationProps) {
 	const [activeTab, setActiveTab] = useState('lenses');
+	const searchParams = useSearchParams();
+	const query = searchParams.get('search');
 
 	return (
 		<Tabs value={activeTab} onValueChange={setActiveTab} className='space-y-4'>
@@ -31,10 +34,11 @@ export default function TabNavigation({
 
 			<div className='flex justify-between items-center mb-4'>
 				<div className='text-sm text-muted-foreground'>
-					Showing results for <span className='font-medium'>All</span>
+					Showing results for{' '}
+					<span className='font-medium'>"{query ?? 'All'}"</span>
 				</div>
 				<Button variant='outline' size='sm'>
-					<Filter className='mr-2 h-4 w-4' /> Filter
+					<Filter className='mr-2 size-4' /> Filter
 				</Button>
 			</div>
 

@@ -3,14 +3,28 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { clearURLParam } from '@/lib/utils';
 
 export default function SearchForm() {
 	const [searchTerm, setSearchTerm] = useState('');
+	const router = useRouter();
 
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log(`Searching for "${searchTerm}"`);
-		// Implement search logic here
+		router.push(`/account?search=${searchTerm}`);
+	};
+
+	const handleClearSearch = () => {
+		setSearchTerm('');
+		router.replace(clearURLParam('search')); // Update the URL without reloading the page
+	};
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(e.target.value);
+		if (e.target.value === '') {
+			handleClearSearch(); // Call clear function if input is empty
+		}
 	};
 
 	return (
@@ -20,7 +34,7 @@ export default function SearchForm() {
 				type='search'
 				placeholder='Search...'
 				value={searchTerm}
-				onChange={e => setSearchTerm(e.target.value)}
+				onChange={handleInputChange}
 				className='pl-8 w-full'
 			/>
 		</form>
