@@ -2,7 +2,6 @@ import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
@@ -20,10 +19,10 @@ import { LensesContent } from '@/components/account/lenses-content';
 const SkeletonCard = () => {
 	return (
 		<div className='flex flex-col space-y-1'>
-			<Skeleton className='h-16 rounded-xl bg-background text-foreground' />
+			<Skeleton className='h-28 rounded-xl bg-muted' />
 			<div className='space-y-2'>
-				<Skeleton className='h-8 w-3/4 bg-background text-foreground' />
-				<Skeleton className='h-8 w-1/2 bg-background text-foreground' />
+				<Skeleton className='h-8 w-3/4 bg-muted' />
+				<Skeleton className='h-8 w-1/2 bg-muted' />
 			</div>
 		</div>
 	);

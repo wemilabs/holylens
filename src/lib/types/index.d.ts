@@ -20,15 +20,19 @@ declare type Lens = {
 	_id: string;
 	title: string;
 	description: string;
-	content: string;
-	slug: string;
 	author: {
 		name: string;
 	};
+	content: string;
+	slug: string;
 	publishedDate: string;
 	tags: string[];
 	coverImage_url?: string;
 	readTime?: string;
+	likes_count?: number;
+	comments_count?: number;
+	favorites_count?: number;
+	views_count?: number;
 };
 
 declare type NavItem = {

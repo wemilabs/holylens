@@ -12,17 +12,7 @@ import { Button } from '../ui/button';
 import { CommentForm } from './comment-form';
 
 interface LensContentProps {
-	lens: {
-		_id: string;
-		title: string;
-		content: string;
-		author: {
-			name: string;
-		};
-		publishedDate: string;
-		tags: string[];
-		coverImage?: string;
-	};
+	lens: Lens;
 }
 
 interface Comment {
@@ -80,10 +70,10 @@ export function LensContent({ lens }: LensContentProps) {
 					{format(new Date(lens.publishedDate), 'MMMM d, yyyy')}
 				</time>
 			</div>
-			{lens.coverImage ? (
+			{lens.coverImage_url ? (
 				<div className='mb-8'>
 					<Image
-						src={lens.coverImage}
+						src={lens.coverImage_url?.replace('/f/', '/a/5n5vhs0v3c/')}
 						alt={lens.title}
 						width={800}
 						height={400}

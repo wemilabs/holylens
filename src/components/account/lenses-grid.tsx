@@ -4,23 +4,6 @@ import LensCard from '@/components/account/lens-card';
 import { Loader } from 'lucide-react';
 import { useState, useEffect /*, useOptimistic*/, useRef } from 'react';
 
-interface Lens {
-	_id: string;
-	title: string;
-	description: string;
-	author: {
-		name: string;
-	};
-	publishedDate: string;
-	tags: string[];
-	coverImage_url?: string;
-	readTime?: string;
-	likes_count?: number;
-	comments_count?: number;
-	favorites_count?: number;
-	views_count?: number;
-}
-
 interface LensesGridProps {
 	initialLenses: Lens[];
 	totalPages: number;

@@ -22,7 +22,7 @@ export async function getCategories() {
 export async function getLenses(
 	selectedCategories: string[] = [],
 	page: number = 1,
-	limit: number = 5,
+	limit: number = 3,
 	searchTerm: string = ''
 ) {
 	await connectToDatabase();
@@ -72,11 +72,11 @@ export async function revalidateLenses() {
 }
 
 // Get a specific lens by ID
-export async function getLensById(id: string) {
+export async function getLensBySlug(slug: string) {
 	await connectToDatabase();
 
 	try {
-		const lens = await Lens.findById(id)
+		const lens = await Lens.findOne({ slug })
 			.populate('author', 'name')
 			.select(
 				'title description content slug author publishedDate tags coverImage_url readTime likes_count comments_count favorites_count views_count isPublished'

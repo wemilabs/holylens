@@ -13,22 +13,7 @@ import {
 } from '../ui/card';
 
 interface LensCardProps {
-	lens: {
-		_id: string;
-		title: string;
-		description: string;
-		author: {
-			name: string;
-		};
-		publishedDate: string;
-		tags: string[];
-		coverImage_url?: string;
-		readTime?: string;
-		likes_count?: number;
-		comments_count?: number;
-		favorites_count?: number;
-		views_count?: number;
-	};
+	lens: Lens;
 }
 
 const lensCard = ({ lens }: LensCardProps) => {
@@ -39,6 +24,7 @@ const lensCard = ({ lens }: LensCardProps) => {
 		author: { name: authorName },
 		publishedDate,
 		tags,
+		slug,
 		coverImage_url,
 		readTime,
 		likes_count,
@@ -95,7 +81,7 @@ const lensCard = ({ lens }: LensCardProps) => {
 							</Button>
 						</div>
 
-						<Link href={`/account/lenses/${id}`}>
+						<Link href={`/account/lenses/${slug}`}>
 							<Button variant='outline'>
 								Read More <ArrowRight className='ml-2 size-4' />
 							</Button>
