@@ -4,13 +4,14 @@ declare type AuthProviderProps = {
 
 declare type AuthContextType = {
 	user: User | null;
+	loading?: boolean;
 	signIn: (email: string, password: string) => Promise<void>;
 	signUp: (name: string, email: string, password: string) => Promise<void>;
 	signOut: () => void;
 };
 
 declare type User = {
-	_id: string;
+	id: string;
 	name: string;
 	email: string;
 	role: string;
@@ -30,9 +31,29 @@ declare type Lens = {
 	coverImage_url?: string;
 	readTime?: string;
 	likes_count?: number;
-	comments_count?: number;
+	comments?: string[];
 	favorites_count?: number;
 	views_count?: number;
+};
+
+declare type LensComment = {
+	_id: string;
+	content: string;
+	author: {
+		_id: string;
+		name: string;
+	};
+	createdAt: string;
+	likes: { _id: string; name: string }[];
+	replies: {
+		_id: string;
+		content: string;
+		author: {
+			_id: string;
+			name: string;
+		};
+		createdAt: string;
+	}[];
 };
 
 declare type NavItem = {

@@ -28,10 +28,12 @@ const lensCard = ({ lens }: LensCardProps) => {
 		coverImage_url,
 		readTime,
 		likes_count,
-		comments_count,
+		comments,
 		favorites_count,
 		views_count,
 	} = lens;
+
+	console.log(comments);
 
 	return (
 		<Card key={id}>
@@ -77,7 +79,8 @@ const lensCard = ({ lens }: LensCardProps) => {
 								<Heart className='mr-2 size-4' /> {likes_count}
 							</Button>
 							<Button variant='ghost' size='sm'>
-								<MessageCircle className='mr-2 size-4' /> {comments_count}
+								<MessageCircle className='mr-2 size-4' />{' '}
+								{comments?.length ?? 0}
 							</Button>
 						</div>
 

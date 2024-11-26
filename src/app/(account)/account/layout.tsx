@@ -21,13 +21,13 @@ export default function AccountLayout({
 	return (
 		<html id='holyLens' lang='en' dir='ltr'>
 			<body className={GeistSans.className}>
-				<ThemeProvider
-					attribute='class'
-					defaultTheme='system'
-					disableTransitionOnChange={false}
-					enableSystem
-				>
-					<AuthProvider>
+				<AuthProvider>
+					<ThemeProvider
+						attribute='class'
+						defaultTheme='system'
+						disableTransitionOnChange={false}
+						enableSystem
+					>
 						<div className='min-h-screen bg-gray-50 dark:bg-gray-900'>
 							<Header />
 							<main className='container mx-auto px-4 pt-28 pb-8'>
@@ -35,8 +35,8 @@ export default function AccountLayout({
 							</main>
 						</div>
 						<Toaster richColors closeButton />
-					</AuthProvider>
-				</ThemeProvider>
+					</ThemeProvider>
+				</AuthProvider>
 			</body>
 		</html>
 	);
