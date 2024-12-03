@@ -25,13 +25,13 @@ declare type Lens = {
 		name: string;
 	};
 	content: string;
-	slug: string;
 	publishedDate: string;
 	tags: string[];
-	coverImage_url?: string;
+	slug: string;
+	coverImage_url: string;
 	readTime?: string;
-	likes_count?: number;
-	comments?: string[];
+	likes: { _id: string | undefined; name: string }[];
+	comments: LensComment[];
 	favorites_count?: number;
 	views_count?: number;
 };
@@ -42,6 +42,7 @@ declare type LensComment = {
 	author: {
 		_id: string;
 		name: string;
+		avatar?: string;
 	};
 	createdAt: string;
 	likes: { _id: string; name: string }[];

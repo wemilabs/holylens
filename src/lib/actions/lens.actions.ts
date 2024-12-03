@@ -1,10 +1,17 @@
 'use server';
 
 import Lens from '@/lib/database/models/lens.model';
+import User from '@/lib/database/models/user.model';
 import connectToDatabase from '@/lib/database/mongoose';
-// import { getUsers } from './user.actions';
-// import { expirePath } from 'next/cache';
-// import { handleError } from '../utils';
+import jwt from 'jsonwebtoken';
+
+const verifyToken = (token: string) => {
+	try {
+		return jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+	} catch (error) {
+		return null;
+	}
+};
 
 // Get all categories
 export async function getCategories() {
@@ -26,7 +33,6 @@ export async function getLenses(
 	searchTerm: string = ''
 ) {
 	await connectToDatabase();
-	// await getUsers();
 
 	try {
 		let query: any = { isPublished: true };
@@ -56,7 +62,7 @@ export async function getLenses(
 				},
 			})
 			.select(
-				'title description content slug author publishedDate tags coverImage_url readTime likes_count favorites_count views_count isPublished'
+				'title description content slug author publishedDate tags coverImage_url readTime likes favorites_count views_count isPublished'
 			)
 			.lean();
 
@@ -73,11 +79,6 @@ export async function getLenses(
 	}
 }
 
-// New function to handle revalidation
-// export async function revalidateLenses() {
-// 	expirePath('/lenses');
-// }
-
 // Get a specific lens by ID
 export async function getLensBySlug(slug: string) {
 	await connectToDatabase();
@@ -87,7 +88,7 @@ export async function getLensBySlug(slug: string) {
 			.populate('author', 'name')
 			.populate('comments')
 			.select(
-				'title description content slug author publishedDate tags coverImage_url readTime likes_count favorites_count views_count isPublished'
+				'title description content slug author publishedDate tags coverImage_url readTime likes favorites_count views_count isPublished'
 			)
 			.lean();
 
@@ -96,12 +97,127 @@ export async function getLensBySlug(slug: string) {
 		return JSON.parse(JSON.stringify(lens));
 	} catch (error) {
 		console.error('Error fetching lens:', error);
-		// handleError(error);
 		return null;
 	}
 }
 
-// New function to handle revalidation for a specific lens
-// export async function revalidateLensById(id: string) {
-// 	expirePath(`/lenses/${id}`);
-// }
+export async function likeLens(lensId: string, token: string | null) {
+	if (!token) throw new Error('Unauthorized');
+
+	const decodedToken = verifyToken(token);
+	if (!decodedToken) {
+		throw new Error('Invalid token');
+	}
+
+	await connectToDatabase();
+
+	try {
+		const lens = await Lens.findById(lensId);
+		if (!lens) {
+			throw new Error('Lens not found');
+		}
+
+		const userIndex = lens.likes.indexOf(decodedToken.userId);
+		if (userIndex > -1) {
+			lens.likes.splice(userIndex, 1);
+		} else {
+			lens.likes.push(decodedToken.userId);
+		}
+
+		await lens.save();
+
+		const updatedLens = await Lens.findById(lensId)
+			.populate('author', 'name')
+			.populate('comments')
+			.select(
+				'title description content slug author publishedDate tags coverImage_url readTime likes favorites_count views_count isPublished'
+			)
+			.lean();
+
+		// expirePath(`/lenses/${lensId}`);
+		return JSON.parse(JSON.stringify(updatedLens));
+	} catch (error) {
+		console.error('Error liking lens:', error);
+		throw new Error('Failed to like lens');
+	}
+}
+
+export async function bookmarkLens(lensId: string, token: string | null) {
+	if (!token) throw new Error('Unauthorized');
+
+	const decodedToken = verifyToken(token);
+	if (!decodedToken) {
+		throw new Error('Invalid token');
+	}
+
+	await connectToDatabase();
+
+	try {
+		const lens = await Lens.findById(lensId);
+		if (!lens) {
+			throw new Error('Lens not found');
+		}
+
+		const userIndex = lens.bookmarks.indexOf(decodedToken.userId);
+		if (userIndex > -1) {
+			lens.bookmarks.splice(userIndex, 1);
+		} else {
+			lens.bookmarks.push(decodedToken.userId);
+		}
+
+		await lens.save();
+
+		const updatedLens = await Lens.findById(lensId)
+			.populate('author', 'name')
+			.populate('comments')
+			.select(
+				'title description content slug author publishedDate tags coverImage_url readTime likes favorites_count views_count isPublished'
+			)
+			.lean();
+
+		// expirePath(`/lenses/${lensId}`);
+		return JSON.parse(JSON.stringify(updatedLens));
+	} catch (error) {
+		console.error('Error bookmarking lens:', error);
+		throw new Error('Failed to bookmark lens');
+	}
+}
+
+export async function unlikeLens(lensId: string, token: string | null) {
+	if (!token) throw new Error('Unauthorized');
+
+	const decodedToken = verifyToken(token);
+	if (!decodedToken) {
+		throw new Error('Invalid token');
+	}
+
+	await connectToDatabase();
+
+	try {
+		const lens = await Lens.findById(lensId);
+		if (!lens) {
+			throw new Error('Lens not found');
+		}
+
+		const userIndex = lens.likes.indexOf(decodedToken.userId);
+		if (userIndex > -1) {
+			lens.likes.splice(userIndex, 1);
+		}
+
+		await lens.save();
+
+		const updatedLens = await Lens.findById(lensId)
+			.populate('author', 'name')
+			.populate('comments')
+			.select(
+				'title description content slug author publishedDate tags coverImage_url readTime likes favorites_count views_count isPublished'
+			)
+			.lean();
+
+		// expirePath(`/lenses/${lensId}`);
+		return JSON.parse(JSON.stringify(updatedLens));
+	} catch (error) {
+		console.error('Error unliking lens:', error);
+		throw new Error('Failed to unlike lens');
+	}
+}

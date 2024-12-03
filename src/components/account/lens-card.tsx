@@ -1,4 +1,4 @@
-import { ArrowRight, Bookmark, Heart, MessageCircle } from 'lucide-react';
+import { ArrowRight, Bookmark, Heart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '../ui/badge';
@@ -11,12 +11,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from '../ui/card';
+import { CommentsPopup } from './comments-popup';
 
 interface LensCardProps {
 	lens: Lens;
 }
 
-const lensCard = ({ lens }: LensCardProps) => {
+const LensCard = ({ lens }: LensCardProps) => {
 	const {
 		_id: id,
 		title,
@@ -27,13 +28,19 @@ const lensCard = ({ lens }: LensCardProps) => {
 		slug,
 		coverImage_url,
 		readTime,
-		likes_count,
+		likes,
 		comments,
 		favorites_count,
 		views_count,
 	} = lens;
 
-	console.log(comments);
+	const calculateTotalCommentCount = (comments: LensComment[]): number => {
+		return comments.reduce((total, comment) => {
+			return total + 1 + (comment.replies?.length || 0);
+		}, 0);
+	};
+
+	const totalCommentCount = calculateTotalCommentCount(comments);
 
 	return (
 		<Card key={id}>
@@ -53,7 +60,7 @@ const lensCard = ({ lens }: LensCardProps) => {
 				<div className='md:w-2/3'>
 					<CardHeader>
 						<div className='flex justify-between items-center'>
-							<CardTitle>{lens.title}</CardTitle>
+							<CardTitle>{title}</CardTitle>
 							<Button variant='ghost' size='sm'>
 								<Bookmark className='size-5' />
 							</Button>
@@ -68,20 +75,14 @@ const lensCard = ({ lens }: LensCardProps) => {
 								</Badge>
 							))}
 						</div>
-						{/* <p className='text-gray-600 dark:text-gray-300 mt-4'>
-							{description.replace(/<[^>]*>/g, '').slice(0, 100)}...
-						</p> */}
 					</CardContent>
 
 					<CardFooter className='flex justify-between'>
 						<div className='flex items-center space-x-4'>
 							<Button variant='ghost' size='sm'>
-								<Heart className='mr-2 size-4' /> {likes_count}
+								<Heart className='mr-2 size-4' /> {likes?.length ?? 0}
 							</Button>
-							<Button variant='ghost' size='sm'>
-								<MessageCircle className='mr-2 size-4' />{' '}
-								{comments?.length ?? 0}
-							</Button>
+							<CommentsPopup lensId={id} commentsCount={totalCommentCount} />
 						</div>
 
 						<Link href={`/account/lenses/${slug}`}>
@@ -96,4 +97,4 @@ const lensCard = ({ lens }: LensCardProps) => {
 	);
 };
 
-export default lensCard;
+export default LensCard;

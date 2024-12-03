@@ -5,7 +5,7 @@ import Lens from '@/lib/database/models/lens.model';
 import User from '@/lib/database/models/user.model';
 import connectToDatabase from '@/lib/database/mongoose';
 import jwt from 'jsonwebtoken';
-import { expirePath } from 'next/cache';
+// import { expirePath } from 'next/cache';
 
 const verifyToken = (token: string) => {
 	try {
@@ -19,17 +19,15 @@ export async function getComments(lensId: string) {
 	await connectToDatabase();
 	try {
 		const comments = await Comment.find({ article: lensId })
-			.populate('author', 'name')
+			.populate('author', 'name avatar')
 			.populate('likes', 'name')
 			.populate('replies.author', 'name')
 			.sort({ createdAt: -1 })
-			.lean()
-			.exec();
+			.lean();
 
 		return JSON.parse(JSON.stringify(comments));
 	} catch (error: any) {
 		console.error('Error fetching comments:', error);
-		// return { success: false, error: (error as Error).message };
 		return [];
 	}
 }
@@ -37,11 +35,8 @@ export async function getComments(lensId: string) {
 export async function createComment(
 	lensId: string,
 	content: string,
-	token: string
+	token: string | null
 ) {
-	// const headersList = await headers();
-	// const token = headersList.get('Authorization')?.split(' ')[1];
-
 	if (!token) throw new Error('Unauthorized');
 
 	const decodedToken = verifyToken(token);
@@ -80,7 +75,6 @@ export async function createComment(
 			.lean();
 
 		// expirePath(`/lenses/${lensId}`);
-		expirePath(`/lenses/${lensId}`);
 		return JSON.parse(JSON.stringify(populatedComment));
 	} catch (error) {
 		console.error('Error creating comment:', error);
@@ -88,7 +82,7 @@ export async function createComment(
 	}
 }
 
-export async function likeComment(commentId: string, token: string) {
+export async function likeComment(commentId: string, token: string | null) {
 	if (!token) throw new Error('Unauthorized');
 
 	const decodedToken = verifyToken(token);
@@ -119,7 +113,7 @@ export async function likeComment(commentId: string, token: string) {
 			.populate('replies.author', 'name')
 			.lean();
 
-		expirePath(`/lenses/${comment.article}`);
+		// expirePath(`/lenses/${comment.article}`);
 		return JSON.parse(JSON.stringify(updatedComment));
 	} catch (error) {
 		console.error('Error liking comment:', error);
@@ -130,7 +124,7 @@ export async function likeComment(commentId: string, token: string) {
 export async function replyToComment(
 	commentId: string,
 	content: string,
-	token: string
+	token: string | null
 ) {
 	if (!token) throw new Error('Unauthorized');
 
@@ -160,7 +154,7 @@ export async function replyToComment(
 			.populate('replies.author', 'name')
 			.lean();
 
-		expirePath(`/lenses/${comment.article}`);
+		// expirePath(`/lenses/${comment.article}`);
 		return JSON.parse(JSON.stringify(updatedComment));
 	} catch (error) {
 		console.error('Error replying to comment:', error);
@@ -171,7 +165,7 @@ export async function replyToComment(
 export async function updateComment(
 	commentId: string,
 	content: string,
-	token: string
+	token: string | null
 ) {
 	if (!token) throw new Error('Unauthorized');
 
@@ -202,7 +196,7 @@ export async function updateComment(
 			.populate('replies.author', 'name')
 			.lean();
 
-		expirePath(`/lenses/${comment.article}`);
+		// expirePath(`/lenses/${comment.article}`);
 		return JSON.parse(JSON.stringify(updatedComment));
 	} catch (error) {
 		console.error('Error updating comment:', error);
@@ -214,7 +208,7 @@ export async function updateReply(
 	commentId: string,
 	replyId: string,
 	content: string,
-	token: string
+	token: string | null
 ) {
 	if (!token) throw new Error('Unauthorized');
 
@@ -249,7 +243,7 @@ export async function updateReply(
 			.populate('replies.author', 'name')
 			.lean();
 
-		expirePath(`/lenses/${comment.article}`);
+		// expirePath(`/lenses/${comment.article}`);
 		return JSON.parse(JSON.stringify(updatedComment));
 	} catch (error) {
 		console.error('Error updating reply:', error);
@@ -257,7 +251,7 @@ export async function updateReply(
 	}
 }
 
-export async function deleteComment(commentId: string, token: string) {
+export async function deleteComment(commentId: string, token: string | null) {
 	if (!token) throw new Error('Unauthorized');
 
 	const decodedToken = verifyToken(token);
@@ -287,7 +281,7 @@ export async function deleteComment(commentId: string, token: string) {
 			$pull: { comments: commentId },
 		});
 
-		expirePath(`/lenses/${comment.article}`);
+		// expirePath(`/lenses/${comment.article}`);
 		return { success: true, message: 'Comment deleted successfully' };
 	} catch (error) {
 		console.error('Error deleting comment:', error);
@@ -298,7 +292,7 @@ export async function deleteComment(commentId: string, token: string) {
 export async function deleteReply(
 	commentId: string,
 	replyId: string,
-	token: string
+	token: string | null
 ) {
 	if (!token) throw new Error('Unauthorized');
 
@@ -333,7 +327,7 @@ export async function deleteReply(
 			.populate('replies.author', 'name')
 			.lean();
 
-		expirePath(`/lenses/${comment.article}`);
+		// expirePath(`/lenses/${comment.article}`);
 		return JSON.parse(JSON.stringify(updatedComment));
 	} catch (error) {
 		console.error('Error deleting reply:', error);

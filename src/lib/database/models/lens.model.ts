@@ -14,7 +14,7 @@ export interface ILens extends Document {
 	isPublished: boolean;
 	publishedDate: Date;
 	readTime?: string;
-	likes_count?: number;
+	likes?: mongoose.Types.ObjectId[];
 	favorites_count?: number;
 	views_count?: number;
 	createdAt: Date;
@@ -73,7 +73,7 @@ const LensSchema: Schema = new Schema(
 			},
 		],
 		comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
-		likes_count: { type: Number, default: 0 },
+		likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 		favorites_count: { type: Number, default: 0 },
 		views_count: { type: Number, default: 0 },
 		isPublished: { type: Boolean, default: false },

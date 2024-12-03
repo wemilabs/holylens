@@ -1,11 +1,11 @@
-import mongoose, { Schema, Document, model, models } from 'mongoose';
+import mongoose, { Document, model, models, Schema } from 'mongoose';
 
 export interface IComment extends Document {
 	content: string;
 	author: mongoose.Types.ObjectId;
 	article: mongoose.Types.ObjectId;
 	likes?: mongoose.Types.ObjectId[];
-	replies?: any[]; //IComment[]
+	replies?: any[];
 	createdAt: Date;
 	updatedAt: Date;
 }
