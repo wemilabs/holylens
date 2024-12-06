@@ -101,7 +101,7 @@ export async function getLensBySlug(slug: string) {
 	}
 }
 
-export async function likeLens(lensId: string, token: string | null) {
+export async function likeOrDislikeLens(lensId: string, token: string | null) {
 	if (!token) throw new Error('Unauthorized');
 
 	const decodedToken = verifyToken(token);
@@ -134,7 +134,6 @@ export async function likeLens(lensId: string, token: string | null) {
 			)
 			.lean();
 
-		// expirePath(`/lenses/${lensId}`);
 		return JSON.parse(JSON.stringify(updatedLens));
 	} catch (error) {
 		console.error('Error liking lens:', error);
@@ -175,49 +174,9 @@ export async function bookmarkLens(lensId: string, token: string | null) {
 			)
 			.lean();
 
-		// expirePath(`/lenses/${lensId}`);
 		return JSON.parse(JSON.stringify(updatedLens));
 	} catch (error) {
 		console.error('Error bookmarking lens:', error);
 		throw new Error('Failed to bookmark lens');
-	}
-}
-
-export async function unlikeLens(lensId: string, token: string | null) {
-	if (!token) throw new Error('Unauthorized');
-
-	const decodedToken = verifyToken(token);
-	if (!decodedToken) {
-		throw new Error('Invalid token');
-	}
-
-	await connectToDatabase();
-
-	try {
-		const lens = await Lens.findById(lensId);
-		if (!lens) {
-			throw new Error('Lens not found');
-		}
-
-		const userIndex = lens.likes.indexOf(decodedToken.userId);
-		if (userIndex > -1) {
-			lens.likes.splice(userIndex, 1);
-		}
-
-		await lens.save();
-
-		const updatedLens = await Lens.findById(lensId)
-			.populate('author', 'name')
-			.populate('comments')
-			.select(
-				'title description content slug author publishedDate tags coverImage_url readTime likes favorites_count views_count isPublished'
-			)
-			.lean();
-
-		// expirePath(`/lenses/${lensId}`);
-		return JSON.parse(JSON.stringify(updatedLens));
-	} catch (error) {
-		console.error('Error unliking lens:', error);
-		throw new Error('Failed to unlike lens');
 	}
 }

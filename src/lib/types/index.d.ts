@@ -11,7 +11,7 @@ declare type AuthContextType = {
 };
 
 declare type User = {
-	id: string;
+	_id: string;
 	name: string;
 	email: string;
 	role: string;

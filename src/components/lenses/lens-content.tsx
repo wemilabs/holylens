@@ -13,7 +13,7 @@ import {
 import { useAuth } from '@/lib/hooks/useAuth.hook';
 import { format } from 'date-fns';
 import DOMPurify from 'isomorphic-dompurify';
-import { ArrowLeft, Heart, BookmarkCheck, Bookmark } from 'lucide-react';
+import { ArrowLeft, Heart, Bookmark } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ import { Button } from '../ui/button';
 import { CommentForm } from './comment-form';
 import { CommentList } from './comment-list';
 import { toast } from 'sonner';
-import { likeLens } from '@/lib/actions/lens.actions';
+import { likeOrDislikeLens } from '@/lib/actions/lens.actions';
 
 interface LensContentProps {
 	lens: Lens;
@@ -31,7 +31,6 @@ const token: string | null = localStorage.getItem('token');
 
 export function LensContent({ lens }: LensContentProps) {
 	const [comments, setComments] = useState<LensComment[]>([]),
-		// [isLiked, setIsLiked] = useState(false),
 		[isBookmarked, setIsBookmarked] = useState(false);
 	const { user } = useAuth();
 
@@ -117,14 +116,6 @@ export function LensContent({ lens }: LensContentProps) {
 		}
 	};
 
-	console.log('1 - ', token);
-	console.log('2 - ', Array.isArray(lens.likes));
-	console.log('3 - ', user?.id);
-	console.log(
-		'4 -',
-		lens.likes.find(like => like._id === user?.id)
-	);
-
 	const handleEditReply = async (
 		commentId: string,
 		replyId: string,
@@ -177,8 +168,7 @@ export function LensContent({ lens }: LensContentProps) {
 	const handleLikeLens = async (lensId: string) => {
 		try {
 			verifyUserAuth(token);
-			await likeLens(lensId, token);
-			// setIsLiked(prevState => !prevState);
+			await likeOrDislikeLens(lensId, token);
 		} catch (error) {
 			console.error('Error liking lens:', error);
 		}
@@ -221,15 +211,24 @@ export function LensContent({ lens }: LensContentProps) {
 						size='sm'
 						onClick={() => handleLikeLens(id)}
 						// aria-label={isLiked ? 'Unlike lens' : 'Like lens'}
-						// className={
-						// 	token &&
-						// 	Array.isArray(lens.likes) &&
-						// 	lens.likes.some(like => like._id === user?.id)
-						// 		? 'text-red-500'
-						// 		: ''
-						// }
+						className={
+							token &&
+							Array.isArray(lens.likes) &&
+							lens.likes.some(like => like._id === user?._id)
+								? 'text-red-500'
+								: ''
+						}
 					>
-						<Heart className='mr-2 size-5' />
+						<Heart
+							className='size-5'
+							// fill={
+							// 	token &&
+							// 	Array.isArray(lens.likes) &&
+							// 	lens.likes.some(like => like._id === user?._id)
+							// 		? 'red'
+							// 		: ''
+							// }
+						/>
 					</Button>
 					<Button
 						variant='ghost'
@@ -238,7 +237,7 @@ export function LensContent({ lens }: LensContentProps) {
 						aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark lens'}
 						className={isBookmarked ? 'text-blue-500' : ''}
 					>
-						<Bookmark className='mr-2 size-5' />
+						<Bookmark className='size-5' />
 					</Button>
 				</div>
 			</div>
@@ -269,14 +268,14 @@ export function LensContent({ lens }: LensContentProps) {
 				))}
 			</div>
 
-			<div className='flex items-center space-x-4'>
+			{/* <div className='flex items-center space-x-4'>
 				<Button variant='ghost' size='sm'>
 					<Heart className='mr-2 size-5' />
 				</Button>
 				<Button variant='ghost' size='sm'>
 					<BookmarkCheck className='mr-2 size-5' />
 				</Button>
-			</div>
+			</div> */}
 
 			<div className='mt-12'>
 				<h2 className='text-2xl font-bold mb-4'>Comments</h2>

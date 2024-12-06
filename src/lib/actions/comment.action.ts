@@ -5,7 +5,6 @@ import Lens from '@/lib/database/models/lens.model';
 import User from '@/lib/database/models/user.model';
 import connectToDatabase from '@/lib/database/mongoose';
 import jwt from 'jsonwebtoken';
-// import { expirePath } from 'next/cache';
 
 const verifyToken = (token: string) => {
 	try {
@@ -74,7 +73,6 @@ export async function createComment(
 			.populate('author', 'name')
 			.lean();
 
-		// expirePath(`/lenses/${lensId}`);
 		return JSON.parse(JSON.stringify(populatedComment));
 	} catch (error) {
 		console.error('Error creating comment:', error);
@@ -113,7 +111,6 @@ export async function likeComment(commentId: string, token: string | null) {
 			.populate('replies.author', 'name')
 			.lean();
 
-		// expirePath(`/lenses/${comment.article}`);
 		return JSON.parse(JSON.stringify(updatedComment));
 	} catch (error) {
 		console.error('Error liking comment:', error);
@@ -154,7 +151,6 @@ export async function replyToComment(
 			.populate('replies.author', 'name')
 			.lean();
 
-		// expirePath(`/lenses/${comment.article}`);
 		return JSON.parse(JSON.stringify(updatedComment));
 	} catch (error) {
 		console.error('Error replying to comment:', error);
@@ -196,7 +192,6 @@ export async function updateComment(
 			.populate('replies.author', 'name')
 			.lean();
 
-		// expirePath(`/lenses/${comment.article}`);
 		return JSON.parse(JSON.stringify(updatedComment));
 	} catch (error) {
 		console.error('Error updating comment:', error);
@@ -243,7 +238,6 @@ export async function updateReply(
 			.populate('replies.author', 'name')
 			.lean();
 
-		// expirePath(`/lenses/${comment.article}`);
 		return JSON.parse(JSON.stringify(updatedComment));
 	} catch (error) {
 		console.error('Error updating reply:', error);
@@ -281,7 +275,6 @@ export async function deleteComment(commentId: string, token: string | null) {
 			$pull: { comments: commentId },
 		});
 
-		// expirePath(`/lenses/${comment.article}`);
 		return { success: true, message: 'Comment deleted successfully' };
 	} catch (error) {
 		console.error('Error deleting comment:', error);
@@ -327,7 +320,6 @@ export async function deleteReply(
 			.populate('replies.author', 'name')
 			.lean();
 
-		// expirePath(`/lenses/${comment.article}`);
 		return JSON.parse(JSON.stringify(updatedComment));
 	} catch (error) {
 		console.error('Error deleting reply:', error);

@@ -29,7 +29,7 @@ interface CommentListProps {
 	) => Promise<void>;
 	onDeleteComment: (commentId: string) => Promise<void>;
 	onDeleteReply: (commentId: string, replyId: string) => Promise<void>;
-	currentUser: { id: string; name?: string } | null;
+	currentUser: { _id: string; name?: string } | null;
 }
 
 export function CommentList({
@@ -146,7 +146,7 @@ export function CommentList({
 								currentUser &&
 								comment.likes &&
 								Array.isArray(comment.likes) &&
-								comment.likes.some(like => like._id === currentUser?.id)
+								comment.likes.some(like => like._id === currentUser?._id)
 									? 'text-red-500'
 									: ''
 							}`}
@@ -173,7 +173,7 @@ export function CommentList({
 								: 0}
 						</Button>
 						{currentUser &&
-							currentUser?.id === comment.author?._id &&
+							currentUser?._id === comment.author?._id &&
 							editingComment !== comment._id && (
 								<>
 									<Button
@@ -199,7 +199,7 @@ export function CommentList({
 												Delete
 											</Button>
 										</AlertDialogTrigger>
-										<AlertDialogContent>
+										<AlertDialogContent aria-describedby={undefined}>
 											<AlertDialogHeader>
 												<AlertDialogTitle>Are you sure?</AlertDialogTitle>
 												<AlertDialogDescription>
@@ -267,7 +267,7 @@ export function CommentList({
 											<p className='text-sm'>{reply.content}</p>
 										)}
 										{currentUser &&
-											currentUser?.id === reply.author?._id &&
+											currentUser?._id === reply.author?._id &&
 											!editingReply && (
 												<div className='flex space-x-2 mt-1'>
 													<Button
